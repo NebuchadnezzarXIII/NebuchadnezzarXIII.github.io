@@ -11,7 +11,7 @@
             --dark: #292f36;
             --light: #f7f7f7;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -20,13 +20,13 @@
             margin: 0;
             padding: 0;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         header {
             background-color: var(--primary);
             color: white;
@@ -35,56 +35,78 @@
             border-radius: 0 0 20px 20px;
             margin-bottom: 30px;
         }
-        
+
         h1 {
             margin: 0;
             font-size: 2.5rem;
         }
-        
+
         h2 {
             color: var(--primary);
             border-bottom: 2px solid var(--secondary);
             padding-bottom: 10px;
             margin-top: 40px;
         }
-        
+
         .emoji {
             font-size: 1.5em;
         }
-        
+
         .basics {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 15px;
             margin: 30px 0;
         }
-        
+
         .basics-item {
             background-color: white;
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
+
         .basics-item strong {
             color: var(--secondary);
             display: block;
             font-size: 0.9rem;
             text-transform: uppercase;
         }
-        
-        .photo-placeholder {
-            background-color: #ddd;
-            height: 300px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .photo-container {
             margin: 30px 0;
-            color: #666;
-            font-style: italic;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
-        
+
+        .profile-photo {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .gallery-photo {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-photo:hover {
+            transform: scale(1.03);
+        }
+
         .testimonial {
             background-color: white;
             border-left: 4px solid var(--secondary);
@@ -93,11 +115,11 @@
             border-radius: 0 10px 10px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
+
         .testimonial strong {
             color: var(--primary);
         }
-        
+
         .contact {
             background-color: var(--secondary);
             color: white;
@@ -106,21 +128,25 @@
             text-align: center;
             margin: 40px 0;
         }
-        
+
         .contact h2 {
             color: white;
             border-bottom: 2px solid white;
         }
-        
+
         footer {
             text-align: center;
             padding: 20px;
             color: #666;
             font-size: 0.9rem;
         }
-        
+
         @media (max-width: 600px) {
             .basics {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-gallery {
                 grid-template-columns: 1fr;
             }
         }
@@ -131,7 +157,7 @@
         <h1>Hi, I'm Jess <span class="emoji">😁</span></h1>
         <p>Glad you found your way to my date-me.doc. Sit back, relax, and let me take you on this journey that is me!</p>
     </header>
-    
+
     <div class="container">
         <h2>The Basics</h2>
         <div class="basics">
@@ -180,52 +206,56 @@
                 None. I don't want any, however, it will not be a deal breaker if you have them - as long as you are a good dad!
             </div>
         </div>
-        
-        <div class="photo-placeholder">
-            <img src="docs/assets/placeholder.png" alt="My Image">
+
+        <div class="photo-container">
+            <img src="docs/assets/placeholder.png" alt="Jess smiling" class="profile-photo">
         </div>
         
         <h2>Let's Get Into More Details!</h2>
         
         <h3>The things you will ask me on a first date:</h3>
         <p>I was born and raised in Brazil and left in 2010 to get my master's degree. Since then I have lived in 4 countries, traveled to 60, and have been in New York City since 2016.</p>
-        
+
         <p>As you can probably tell, I travel a lot - mostly for fun. I am fascinated by history and always want to learn more and different things, that is why I try to avoid repeating destinations. I am a proud owner of three driver's licenses, two citizenships, and one permanent residency card - you will need your own TSA-Pre, Global Entry and Clear to join me!</p>
-        
+
         <p>But don't worry, I own my apartment so I don't plan to pick up and leave the city anytime soon (my friends made me pinky promise, so you know it is serious).</p>
-        
+
         <h3>Here is what I like doing for fun:</h3>
         <p>Pilates, going to Broadway shows, museums, concerts, trying new restaurants and bars, drinking Champagne (I am a certified expert) and going out to dance. I also need some downtime, where I mostly spend my time reading books (romances) and TV shows (mostly heartwarming/fun stuff).</p>
-        
+
         <p>I am very career driven and I want a partner that understands and supports that. It is important to me that you are passionate and ambitious about something that matters to you. I am also a woman, Latina and immigrant, so I am very liberal and a feminist, and you will have to be too.</p>
-        
+
         <p>I am alcohol friendly and I am ok with any other pastimes (420, Cigars etc) - if you do them only once in a while. On a somewhat related topic, I like my men like I like my ice cream - not vanilla. 😉</p>
-        
+
         <h2>A Word From My Sponsors</h2>
         <div class="testimonial">
             <strong>From C (knows me for 10 years):</strong>
             <p>My first impression of Jessica was that she is very confident, ambitious, and bad-ass and while all of those things are very true, she's also one of the most loyal, kind, empathetic and thoughtful people I know. If she loves you, she loves you at your best and your worst, she boosts you up when you f*ck up - and helps you see through the clouds when you feel gloomy. She will give to you, so make sure you do the same for her. Bonus points if you have a doggo she can dote on too.</p>
         </div>
-        
+
         <div class="testimonial">
             <strong>From K (knows me for 7 years):</strong>
             <p>Thank you C, I wholeheartedly second everything you said! &lt;3 Jess also brings an incredible sense of adventure and sparkle to everything she does. Whether it's a night in or a grand holiday, she is always fully engaged in the present - learning the traditional custom here, exploring a developing interest there, or giving you her full attention when you need a shoulder. She has the most incredible heart for service and truly cares about making those around her feel seen, cared for, and valued. This woman is a rare find. Trust me gents, she is the one!</p>
         </div>
-        
+
         <h2>What I'm Looking For In A Partner</h2>
         <p>(Yay - that might be you!)</p>
         <p>You are consistent, respectful and reliable. You are happy on your own and are looking for a partner that will add to your life. You want a serious relationship and potentially see yourself getting married. You have a good job with career progression, have disposable income for 2+ international trips a year, and live by yourself. You want someone to plan your vacations for you so you just show up with your passport and credit cards to the airport. You live in NYC, or are willing to relocate here.</p>
-        
+
         <div class="contact">
             <h2>How Do I Get In Contact With You?</h2>
             <p>I would love for you to reach out to me via this form. I promise to get back to you!</p>
             <!-- Form would be added here -->
         </div>
-        
-        <div class="photo-placeholder">
-            [More photos would appear here]
+
+        <h2>More Photos</h2>
+        <div class="photo-gallery">
+            <img src="docs/assets/jess-travel1.jpg" alt="Jess traveling" class="gallery-photo">
+            <img src="docs/assets/jess-event.jpg" alt="Jess at an event" class="gallery-photo">
+            <img src="docs/assets/jess-outdoor.jpg" alt="Jess outdoors" class="gallery-photo">
+            <img src="docs/assets/jess-travel2.jpg" alt="Jess on vacation" class="gallery-photo">
         </div>
-        
+
         <footer>
             &copy; 2025 - Jess's Dating Profile
         </footer>
