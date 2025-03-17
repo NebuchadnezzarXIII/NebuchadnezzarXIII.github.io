@@ -134,10 +134,56 @@
             margin: 15px 0;
         }
 
-        .image-container img {
+        .image-container img, .image-container video {
             max-width: 100%;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .animated-bg {
+            background: linear-gradient(-45deg, #ff4b6c, #ff8a78, #ff9b8a, #ffb39e);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .interests-display {
@@ -217,7 +263,7 @@
              "title": "Through My Lens",
              "description": "Photography helps me see the world differently. I mostly focus on street photography and landscapes. There's something magical about capturing a fleeting moment or finding beauty in ordinary scenes. I've had a couple of my photos featured in local exhibitions, which was incredibly affirming. I'm not a gear obsessive, but I do have a trusty Sony mirrorless camera that goes everywhere with me.",
              "quote": "The best camera is the one you have with you.",
-             "image": "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&auto=format&fit=crop",
+             "gif": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDM0cHpyNzcxMWdhaTkyY3QycDRoZXBhZ3dxeXF0cjB1d21qbTl0ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lXiRLb0xFzmreM8k8/giphy.gif",
              "choices": [
                  { "text": "That's really cool! What else are you passionate about?", "next": "change_topic", "compatibility": 10 },
                  { "text": "Are you looking for someone to share these interests?", "next": "relationship_goals", "compatibility": 5 }
@@ -226,7 +272,7 @@
          "outdoor": {
              "title": "The Great Outdoors",
              "description": "Beyond hiking, I love camping and have recently gotten into rock climbing (still very much a beginner though). There's something about being in nature that resets my perspective. My favorite hike so far was in Zion National Park - those red rocks against the blue sky were unreal. I'm always looking for new trails to explore, and it would be great to have a partner who enjoys these adventures too.",
-             "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&auto=format&fit=crop",
+             "gif": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTBraHVicWVrMmxoNTB4ZWJwN29oZHF1YnF0NXJhYTNwbWI3dTd5ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QWBCNmSxVxNQY/giphy.gif",
              "choices": [
                  { "text": "I'd love to hear about your ideal date", "next": "ideal_date", "compatibility": 10 },
                  { "text": "Tell me about what you're looking for in a relationship", "next": "relationship_goals", "compatibility": 5 }
@@ -244,7 +290,7 @@
          "food_preferences": {
              "title": "Culinary Adventures",
              "description": "Food is definitely one of life's great pleasures! I enjoy most cuisines, but if I had to pick favorites, I'd say Thai, Ethiopian, and good old-fashioned Italian comfort food. I'm reasonably adventurous with trying new dishes - the stranger the better sometimes! I also make a mean homemade pizza and have been working on perfecting my curry recipe for years. Fair warning: I'm that person who wants to try a bite of whatever you ordered.",
-             "image": "https://images.unsplash.com/photo-1547592180-85f173990888?w=800&auto=format&fit=crop",
+             "gif": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2d0bWZkMXV6bjRiZ2t1YWk1MXpkdmk5YnEwazRtN2FreDY2OGY3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l3vRcttCynxJoxIrK/giphy.gif",
              "choices": [
                  { "text": "Tell me about your background", "next": "background", "compatibility": 7 },
                  { "text": "What do you do for work?", "next": "career", "compatibility": 5 }
@@ -306,7 +352,7 @@
          "volunteering": {
              "title": "Giving Back",
              "description": "Volunteering at the animal shelter started on a whim a couple of years ago, but it's become a meaningful part of my routine. Beyond just walking dogs and socializing cats (though that's definitely a perk), I've helped with their social media and adoption events. There's something incredibly fulfilling about seeing an animal find their forever home, especially the older ones who often get overlooked. It's taught me a lot about patience and unconditional affection.",
-             "image": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&auto=format&fit=crop",
+             "gif": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHVoYzU4Ym81a2ZtMzU4emV1ZXRzY2t0Mmg3dWR0eTN0Z3pwbXJ5eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oriO0OEd9QIDdllqo/giphy.gif",
              "choices": [
                  { "text": "Tell me something quirky about you", "next": "quirks", "compatibility": 10 },
                  { "text": "Let's talk about your typical week", "next": "typical_week", "compatibility": 5 }
@@ -350,11 +396,11 @@
      function renderTitleScreen() {
          const container = document.getElementById('experience-container');
          container.innerHTML = `
-             <div class="title-screen">
-                 <h1>Get To Know Alex</h1>
-                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop" alt="Alex smiling">
-                 <p>An interactive way to learn about me beyond the typical dating profile</p>
-                 <button id="start-journey" class="choice-btn">Begin The Journey</button>
+             <div class="title-screen animated-bg">
+                 <h1 class="pulse">Get To Know Alex</h1>
+                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop" alt="Alex smiling" class="pulse">
+                 <p class="fade-in">An interactive way to learn about me beyond the typical dating profile</p>
+                 <button id="start-journey" class="choice-btn pulse">Begin The Journey</button>
              </div>
          `;
 
@@ -363,18 +409,7 @@
          });
      }
 
-     function renderScene(sceneId) {
-         // Reset game if it's a restart
-         if (sceneId === 'restart') {
-             profileState = {
-                 compatibility: 0,
-                 interestsDiscovered: [],
-                 pathsTaken: []
-             };
-             renderTitleScreen();
-             return;
-         }
-
+     function renderSceneContent(sceneId) {
          // Get scene data
          const scene = profileData[sceneId];
 
@@ -406,17 +441,23 @@
          if (profileState.interestsDiscovered.length > 0) {
              interestsHtml = `
                  <div class="interests-display">
-                     ${profileState.interestsDiscovered.map(interest =>
-             `<div class="interest-tag">${interest}</div>`
+                     ${profileState.interestsDiscovered.map((interest, index) =>
+             `<div class="interest-tag slide-in" style="animation-delay: ${index * 0.1}s">${interest}</div>`
                         ).join('')}
                     </div>
              `;
          }
 
-         // Create image HTML if available
-         let imageHtml = '';
-         if (scene.image) {
-             imageHtml = `
+         // Create image/GIF HTML if available
+         let mediaHtml = '';
+         if (scene.gif) {
+             mediaHtml = `
+                 <div class="image-container">
+                     <img src="${scene.gif}" alt="${scene.title}" class="pulse">
+                 </div>
+             `;
+         } else if (scene.image) {
+             mediaHtml = `
                  <div class="image-container">
                      <img src="${scene.image}" alt="${scene.title}">
                  </div>
@@ -426,7 +467,7 @@
          // Create quote HTML if available
          let quoteHtml = '';
          if (scene.quote) {
-             quoteHtml = `<div class="quote">"${scene.quote}"</div>`;
+             quoteHtml = `<div class="quote slide-in">"${scene.quote}"</div>`;
          }
 
          // Create stats bar
@@ -439,17 +480,17 @@
              </div>
          `;
 
-         // Create choices
-         const choicesHtml = scene.choices.map(choice =>
-             `<button class="choice-btn" data-next="${choice.next}" data-compatibility="${choice.compatibility || 0}">${choice.text}</button>`
+         // Create choices with staggered animations
+         const choicesHtml = scene.choices.map((choice, index) =>
+             `<button class="choice-btn slide-in" style="animation-delay: ${0.2 + (index * 0.1)}s" data-next="${choice.next}" data-compatibility="${choice.compatibility || 0}">${choice.text}</button>`
          ).join('');
 
          // Build full scene HTML
          container.innerHTML = `
-             <h1>${scene.title}</h1>
-             <div id="story">${scene.description}</div>
+             <h1 class="slide-in">${scene.title}</h1>
+             <div id="story" class="slide-in" style="animation-delay: 0.1s">${scene.description}</div>
              ${quoteHtml}
-             ${imageHtml}
+             ${mediaHtml}
              ${interestsHtml}
              <div id="choices">${choicesHtml}</div>
              <button id="restart">Start Over</button>
@@ -475,6 +516,32 @@
 
          // Save progress to localStorage
          saveProgress();
+     }
+
+     function renderScene(sceneId) {
+         // Reset game if it's a restart
+         if (sceneId === 'restart') {
+             profileState = {
+                 compatibility: 0,
+                 interestsDiscovered: [],
+                 pathsTaken: []
+             };
+             renderTitleScreen();
+             return;
+         }
+
+         // Add transition effect
+         const container = document.getElementById('experience-container');
+         container.style.opacity = 0;
+
+         setTimeout(() => {
+             renderSceneContent(sceneId);
+             container.style.opacity = 1;
+             container.classList.add('fade-in');
+             setTimeout(() => {
+                 container.classList.remove('fade-in');
+             }, 800);
+         }, 300);
      }
 
      function saveProgress() {
