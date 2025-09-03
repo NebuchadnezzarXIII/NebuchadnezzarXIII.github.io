@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Tarot Reading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Merriweather', serif;
+        }
+        .font-title {
+            font-family: 'IM Fell English', serif;
+        }
+        .card {
+            animation: fadeIn 0.8s ease-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-image-container {
+            background-color: #1e293b; /* slate-800 */
+            border-radius: 0.25rem; /* rounded-sm */
+            overflow: hidden;
+            margin-bottom: 1rem;
+            aspect-ratio: 2 / 3;
+        }
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .card-image.reversed {
+            transform: rotate(180deg);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Spread Layouts --- */
+
+        /* Default Layout */
+        .layout-default {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Horseshoe Layout (7 cards) */
+        .layout-horseshoe {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, auto);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .layout-horseshoe .card:nth-child(2) { grid-area: 1 / 1; } /* Pos 1 */
+        .layout-horseshoe .card:nth-child(3) { grid-area: 2 / 1; } /* Pos 2 */
+        .layout-horseshoe .card:nth-child(4) { grid-area: 3 / 2; } /* Pos 3 */
+        .layout-horseshoe .card:nth-child(5) { grid-area: 3 / 3; } /* Pos 4 */
+        .layout-horseshoe .card:nth-child(6) { grid-area: 3 / 4; } /* Pos 5 */
+        .layout-horseshoe .card:nth-child(7) { grid-area: 2 / 4; } /* Pos 6 */
+        .layout-horseshoe .card:nth-child(8) { grid-area: 1 / 4; } /* Pos 7 */
+
+        /* Relationship Layout (5 cards) */
+        .layout-relationship {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, auto);
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .layout-relationship .card:nth-child(2) { grid-area: 2 / 1; } /* You */
+        .layout-relationship .card:nth-child(3) { grid-area: 2 / 3; } /* Other */
+        .layout-relationship .card:nth-child(4) { grid-area: 2 / 2; } /* Connection */
+        .layout-relationship .card:nth-child(5) { grid-area: 3 / 2; } /* Challenge */
+        .layout-relationship .card:nth-child(6) { grid-area: 1 / 2; } /* Potential */
+
+        /* Celtic Cross Layout (10 cards) */
+        .layout-celticCross {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .celtic-cross-main {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 1rem;
+            position: relative;
+        }
+        .celtic-cross-staff {
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .celtic-cross-main .card:nth-child(1) { grid-area: 2 / 2; z-index: 1; } /* Heart */
+        .celtic-cross-main .card:nth-child(2) {
+            grid-area: 2 / 2;
+            transform: rotate(90deg);
+            z-index: 2;
+            cursor: pointer;
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        } /* Challenge */
+        .celtic-cross-main .card:nth-child(2).lifted {
+            z-index: 0;
+            transform: rotate(90deg) scale(0.95);
+            opacity: 0.7;
+        }
+        .celtic-cross-main .card:nth-child(3) { grid-area: 1 / 2; } /* Foundation */
+        .celtic-cross-main .card:nth-child(4) { grid-area: 3 / 2; } /* Recent Past */
+        .celtic-cross-main .card:nth-child(5) { grid-area: 2 / 1; } /* Potential */
+        .celtic-cross-main .card:nth-child(6) { grid-area: 2 / 3; } /* Near Future */
+
+        .card-description {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4; /* Limits the text to 4 lines */
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-slate-800 text-slate-200 min-h-screen">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-5xl md:text-6xl font-title text-amber-300">Digital Tarot</h1>
+            <p class="text-slate-400 mt-2">Seek insight from the cards. Choose your spread.</p>
+        </header>
+
+        <!-- Controls -->
+        <div id="controls" class="flex flex-wrap justify-center gap-4 mb-8 p-4 bg-slate-900/50 rounded-lg shadow-lg">
+            <button data-spread="threeCard" class="spread-btn bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md">Past, Present, Future</button>
+            <button data-spread="mindBodySpirit" class="spread-btn bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md">Mind, Body, Spirit</button>
+            <button data-spread="relationship" class="spread-btn bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md">Relationship</button>
+            <button data-spread="horseshoe" class="spread-btn bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md">Horseshoe</button>
+            <button data-spread="celticCross" class="spread-btn bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md">Celtic Cross</button>
+        </div>
+
+        <!-- Welcome Message -->
+        <div id="welcome-message" class="text-center p-8 bg-slate-900/75 rounded-lg shadow-inner">
+             <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-24 w-24 text-amber-400/30" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v1.946l4.061 4.061a1 1 0 01-1.414 1.414l-4.43-4.43a1 1 0 01-.293-.707V2a1 1 0 01.964-.954zM4.75 3.192a1 1 0 011.414 0L12 9.06l-4.243 4.243a1 1 0 01-1.414-1.414L9.586 8.657 4.75 3.828a1 1 0 010-1.414zm6.828 12.193a1 1 0 011.414 0l4.243-4.242-5.172-5.172-4.243 4.243a1 1 0 010 1.414l3.758 3.757z" clip-rule="evenodd" />
+             </svg>
+            <h2 class="text-2xl font-semibold text-slate-300 mt-4">The cards await your question.</h2>
+            <p class="text-slate-500 mt-2">Select a spread above to begin your reading.</p>
+        </div>
+
+        <!-- Reading Container -->
+        <div id="reading-container">
+            <!-- Drawn cards will be inserted here -->
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        // The entire content of cards.txt is stored here
+        const cardDataRaw = `
+The Fool
+UPRIGHT
+Beginnings, Innocence, Spontaneity, A free spirit
+REVERSED
+Holding back, Recklessness, Risk-taking
+***
+The Magician
+UPRIGHT
+Manifestation, Resourcefulness, Power, Inspired action
+REVERSED
+Manipulation, Poor planning, Untapped talents
+***
+The High Priestess
+UPRIGHT
+Intuition, Sacred knowledge, Divine feminine, The subconscious
+REVERSED
+Secrets, Disconnected from intuition, Withdrawal and silence
+***
+THE Empress
+UPRIGHT
+Femininity, Beauty, Nature, Nurturing, Abundance
+REVERSED
+Creative block, Dependence on others.
+***
+The Emperor
+UPRIGHT
+Authority, Establishment, Structure, A father figure
+REVERSED
+Domination, Excessive control, Lack of discipline, Inflexibility
+***
+The Hierophant
+UPRIGHT
+Spiritual wisdom, Religious beliefs, Conformity, Tradition, Institutions
+REVERSED
+Personal beliefs, Freedom, Challenging the status quo
+***
+The Lovers
+UPRIGHT
+Love, Harmony, Relationships, Values alignment, Choices
+REVERSED
+Self-love, Disharmony, Imbalance, Misalignment of values
+***
+The Chariot
+UPRIGHT
+Control, Willpower, Success, Action, Determination
+REVERSED
+Self-discipline, Opposition, Lack of direction
+***
+Strength
+UPRIGHT
+Strength, Courage, Persuasion, Influence, Compassion
+REVERSED
+Inner strength, Self-doubt, Low energy, Raw emotion
+***
+The Hermit
+UPRIGHT
+Soul-searching, Introspection, Being alone, Inner guidance
+REVERSED
+Isolation, Loneliness, Withdrawal
+***
+Wheel of Fortune
+UPRIGHT
+Good luck, Karma, Life cycles, Destiny, A turning point
+REVERSED
+Bad luck, Resistance to change, Breaking cycles
+***
+Justice
+UPRIGHT
+Justice, Fairness, Truth, Cause and effect, Law
+REVERSED
+Unfairness, Lack of accountability, Dishonesty
+***
+The Hanged Man
+UPRIGHT
+Pause, Surrender, Letting go, New perspectives
+REVERSED
+Delays, Resistance, Stalling, Indecision
+***
+Temperance
+UPRIGHT
+Balance, Moderation, Patience, Purpose
+REVERSED
+Imbalance, Excess, Self-healing, Re-alignment
+***
+Death
+UPRIGHT
+Endings, Change, Transformation, Transition.
+REVERSED
+Resistance to change, Personal transformation, Inner purging
+***
+Devil
+UPRIGHT
+Shadow self, Attachment, Addiction, Restriction, sexuality
+REVERSED
+Releasing limiting beliefs, Exploring dark thoughts, Detachment
+***
+The Tower
+UPRIGHT
+Sudden change, Upheaval, Chaos, Revelation, Awakening
+REVERSED
+Personal transformation, Fear of change, Averting disaster
+***
+The Star
+UPRIGHT
+Hope, Faith, Purpose, Renewal, Spirituality
+REVERSED
+Lack of faith, Despair, Self-trust, Disconnection
+***
+The Moon
+UPRIGHT
+Illusion, Fear, Anxiety, Subconscious, Intuition
+REVERSED
+Release of fear, Repressed emotion, Inner confusion
+***
+The Sun
+UPRIGHT
+Positivity, Fun, Warmth, Success, Vitality
+REVERSED
+Inner child, Feeling down, Overly optimistic
+***
+Judgement
+UPRIGHT
+Judgement, Rebirth, Inner calling, Absolution
+REVERSED
+Self-doubt, Inner critic, Ignoring the call
+***
+The World
+UPRIGHT
+Completion, Integration, Accomplishment, Travel
+REVERSED
+Seeking personal closure, Short-cuts, Delays
+***
+Ace of Cups
+UPRIGHT
+Love, New relationships, Compassion, Creativity
+REVERSED
+Self-love, Intuition, Repressed emotions
+***
+Two of Cups
+UPRIGHT
+Unified love, Partnership, Mutual attraction
+REVERSED
+Self-love, Break-ups, Disharmony, Distrust
+***
+Three of Cups
+UPRIGHT
+Celebration, Friendship, Creativity, Collaborations.
+REVERSED
+Independence, Alone time, Hardcore partying, ‘Three’s a crowd’
+***
+Four of Cups
+UPRIGHT
+Meditation, Contemplation, Apathy, Reevaluation
+REVERSED
+Retreat, Withdrawal, Checking in for alignment
+***
+Five of Cups
+UPRIGHT
+Regret, Failure, Disappointment, Pessimism
+REVERSED
+Personal setbacks, Self-forgiveness, Moving on
+***
+Six of Cups
+UPRIGHT
+Revisiting the past, Childhood memories, Innocence, Joy
+REVERSED
+Living in the past, Forgiveness, Lacking playfulness
+***
+Seven of Cups
+UPRIGHT
+Opportunities, Choices, Wishful thinking, Illusion.
+REVERSED
+Alignment, Personal values, Overwhelmed by choices
+***
+Eight of Cups
+UPRIGHT
+Disappointment, Abandonment, Withdrawal, Escapism
+REVERSED
+Trying one more time, Indecision, Aimless drifting, Walking away
+***
+Nine of Cups
+UPRIGHT
+Contentment, Satisfaction, Gratitude, Wish come true
+REVERSED
+Inner happiness, Materialism, Dissatisfaction, Indulgence
+***
+Ten of Cups
+UPRIGHT
+Divine love, Blissful relationships, Harmony, Alignment
+REVERSED
+Disconnection, Misaligned values, Struggling relationships
+***
+Page of Cups
+UPRIGHT
+Creative opportunities, Intuitive messages, Curiosity, Possibility
+REVERSED
+New ideas, Doubting intuition, Creative blocks, Emotional immaturity
+***
+Knight of Cups
+UPRIGHT
+Creativity, Romance, Charm, Imagination, Beauty
+REVERSED
+Overactive imagination, Unrealistic, Jealous, Moody
+***
+Queen of Cups
+UPRIGHT
+Compassionate, Caring, Emotionally stable, Intuitive, In flow
+REVERSED
+Inner feelings, Self-care, Self-love, Co-dependency
+***
+King of Cups
+UPRIGHT
+Emotionally balanced, Compassionate, Diplomatic
+REVERSED
+Self-compassion, Inner feelings, Moodiness, Emotionally manipulative
+***
+Ace of Pentacles
+UPRIGHT
+A new financial or career opportunity, Manifestation, Abundance
+REVERSED
+Lost opportunity, Lack of planning and foresight
+***
+Two of Pentacles
+UPRIGHT
+Multiple priorities, Time management, Prioritisation, Adaptability
+REVERSED
+Over-committed, Disorganisation, Reprioritisation
+***
+Three of Pentacles
+UPRIGHT
+Teamwork, Collaboration, Learning, Implementation
+REVERSED
+Disharmony, Misalignment, Working alone
+***
+Four of Pentacles
+UPRIGHT
+Saving money, Security, Conservatism, Scarcity, Control
+REVERSED
+Over-spending, Greed, Self-protection
+***
+Five of Pentacles
+UPRIGHT
+Financial loss, Poverty, Lack mindset, Isolation, Worry
+REVERSED
+Recovery from financial loss, Spiritual poverty
+***
+Six of Pentacles
+UPRIGHT
+Giving, Receiving, Sharing wealth, Generosity, Charity
+REVERSED
+Self-care, Unpaid debts, One-sided charity
+***
+Seven of Pentacles
+UPRIGHT
+Long-term view, Sustainable results, Perseverance, Investment
+REVERSED
+Lack of long-term vision, Limited success or reward
+***
+Eight of Pentacles
+UPRIGHT
+Apprenticeship, Repetitive tasks, Mastery, Skill development
+REVERSED
+Self-development, Perfectionism, Misdirected activity
+***
+Nine of Pentacles
+UPRIGHT
+Abundance, Luxury, Self-sufficiency, Financial independence
+REVERSED
+Self-worth, Over-investment in work, Hustling
+***
+Ten of Pentacles
+UPRIGHT
+Wealth, Financial security, Family, Long-term success, Contribution
+REVERSED
+The dark side of wealth, Financial failure or loss
+***
+Page of Pentacles
+UPRIGHT
+Manifestation, Financial opportunity, Skill development
+REVERSED
+Lack of progress, Procrastination, Learn from failure
+***
+Knight of Pentacles
+UPRIGHT
+Hard work, Productivity, Routine, Conservatism
+REVERSED
+Self-discipline, Boredom, Feeling ‘stuck’, Perfectionism
+***
+Queen of Pentacles
+UPRIGHT
+Nurturing, Practical, Providing financially, A working parent
+REVERSED
+Financial independence, Self-care, Work-home conflict
+***
+King of Pentacles
+UPRIGHT
+Wealth, Business, Leadership, Security, Discipline, Abundance
+REVERSED
+Financially inept, Obsessed with wealth and status, Self-indulgent
+***
+Ace of Swords
+UPRIGHT
+Breakthroughs, New ideas, Mental clarity, Success
+REVERSED
+Inner clarity, Re-thinking an idea, Clouded judgement
+***
+Two of Swords
+UPRIGHT
+Difficult decisions, Weighing up options, An impasse, Avoidance
+REVERSED
+Indecision, Confusion, Information overload, Stalemate
+***
+Three of Swords
+UPRIGHT
+Heartbreak, Emotional pain, Sorrow, Grief, Hurt
+REVERSED
+Negative self-talk, Releasing pain, Optimism, Forgiveness
+***
+Four of Swords
+UPRIGHT
+Rest, Relaxation, Meditation, Contemplation, Recuperation
+REVERSED
+Exhaustion, Burn-out, Deep contemplation, Stagnation
+***
+Five of Swords
+UPRIGHT
+Conflict, Disagreements, Competition, Defeat, Winning at all costs
+REVERSED
+Reconciliation, Making amends, Past resentment
+***
+Six of Swords
+UPRIGHT
+Transition, Change, Rite of passage, Releasing baggage
+REVERSED
+Personal transition, Resistance to change, Unfinished business
+***
+Seven of Swords
+UPRIGHT
+Betrayal, Deception, Getting away with something, Acting strategically
+REVERSED
+Imposter syndrome, Self-deceit, Keeping secrets
+***
+Eight of Swords
+UPRIGHT
+Negative thoughts, Self-imposed restriction, Imprisonment, Victim mentality
+REVERSED
+Self-limiting beliefs, Inner critic, Releasing negative thoughts, Open to new perspectives
+***
+Nine of Swords
+UPRIGHT
+Anxiety, Worry, Fear, Depression, Nightmares
+REVERSED
+Inner turmoil, Deep-seated fears, Secrets, Releasing worry
+***
+Ten of Swords
+UPRIGHT
+Painful endings, Deep wounds, Betrayal, Loss, Crisis
+REVERSED
+Recovery, Regeneration, Resisting an inevitable end
+***
+Page of Swords
+UPRIGHT
+New ideas, Curiosity, Thirst for knowledge, New ways of communicating
+REVERSED
+Self-expression, All talk and no action, Haphazard action, Haste
+***
+Knight of Swords
+UPRIGHT
+Ambitious, Action-oriented, Driven to succeed, Fast-thinking
+REVERSED
+Restless, Unfocused, Impulsive, Burn-out
+***
+Queen of Swords
+UPRIGHT
+Independent, Unbiased judgement, Clear boundaries, Direct communication
+REVERSED
+Overly-emotional, Easily influenced, Bitchy, Cold-hearted
+***
+King of Swords
+UPRIGHT
+Mental clarity, Intellectual power, Authority, Truth
+REVERSED
+Quiet power, Inner truth, Misuse of power, Manipulation
+***
+Ace of Wands
+UPRIGHT
+Inspiration, New opportunities, Growth, Potential
+REVERSED
+An emerging idea, Lack of direction, Distractions, Delays
+***
+Two of Wands
+UPRIGHT
+Future planning, Progress, Decisions, Discovery
+REVERSED
+Personal goals, Inner alignment, Fear of unknown, Lack of planning
+***
+Three of Wands
+UPRIGHT
+Progress, Expansion, Foresight, Overseas opportunities
+REVERSED
+Playing small, Lack of foresight, Unexpected delays
+***
+Four of Wands
+UPRIGHT
+Celebration, Joy, Harmony, Relaxation, Homecoming
+REVERSED
+Personal celebration, Inner harmony, Conflict with others, Transition
+***
+Five of Wands
+UPRIGHT
+Conflict, Disagreements, Competition, Tension, Diversity
+REVERSED
+Inner conflict, Conflict avoidance, Tension release
+***
+Six of Wands
+UPRIGHT
+Success, Public recognition, Progress, Self-confidence
+REVERSED
+Private achievement, Personal definition of success, Fall from grace, Egotism
+***
+Seven of Wands
+UPRIGHT
+Challenge, Competition, Protection, Perseverance
+REVERSED
+Exhaustion, Giving up, Overwhelmed
+***
+Eight of Wands
+UPRIGHT
+Movement, Fast paced change, Action, Alignment, Air travel
+REVERSED
+Delays, Frustration, Resisting change, Internal alignment
+***
+Nine of Wands
+UPRIGHT
+Resilience, Courage, Persistence, Test of faith, Boundaries
+REVERSED
+Inner resources, Struggle, Overwhelm, Defensive, Paranoia
+***
+Ten of Wands
+UPRIGHT
+Burden, Extra responsibility, Hard work, Completion
+REVERSED
+Doing it all, Carrying the burden, Delegation, Release
+***
+Page of Wands
+UPRIGHT
+Inspiration, Ideas, Discovery, Limitless potential, Free spirit
+REVERSED
+Newly-formed ideas, Redirecting energy, Self-limiting beliefs, A spiritual path
+***
+Knight of Wands
+UPRIGHT
+Energy, Passion, Inspired action, Adventure, Impulsiveness
+REVERSED
+Passion project, Haste, Scattered energy, Delays, Frustration
+***
+Queen of Wands
+UPRIGHT
+Courage, Confidence, Independence, Social butterfly, Determination
+REVERSED
+Self-respect, Self-confidence, Introverted, Re-establish sense of self
+***
+King of Wands
+UPRIGHT
+Natural-born leader, Grand visions, Long-term success
+REVERSED
+Poor leadership, Aggressive goals, High expectations, Personal direction
+        `;
+
+        const spreads = {
+            threeCard: {
+                name: 'Past, Present, Future',
+                count: 3,
+                positions: ['The Past', 'The Present', 'The Future'],
+                layout: 'default'
+            },
+            mindBodySpirit: {
+                name: 'Mind, Body, Spirit',
+                count: 3,
+                positions: ['Your Mind', 'Your Body', 'Your Spirit'],
+                layout: 'default'
+            },
+            relationship: {
+                name: 'Relationship Spread',
+                count: 5,
+                positions: ['You', 'The Other Person', 'The Connection', 'The Challenge', 'The Potential'],
+                layout: 'relationship'
+            },
+            horseshoe: {
+                name: 'The Horseshoe Spread',
+                count: 7,
+                positions: [
+                    'The Past',
+                    'The Present',
+                    'Hidden Influences',
+                    'The Querent',
+                    'The Influence of Others',
+                    'What You Should Do',
+                    'The Final Outcome'
+                ],
+                layout: 'horseshoe'
+            },
+            celticCross: {
+                name: 'The Celtic Cross',
+                count: 10,
+                positions: [
+                    '1. The Heart of the Matter',
+                    '2. The Challenge',
+                    '3. The Foundation (Past)',
+                    '4. The Recent Past',
+                    '5. The Potential Outcome',
+                    '6. The Near Future',
+                    '7. Your Attitude',
+                    '8. External Influences',
+                    '9. Hopes and Fears',
+                    '10. The Final Outcome'
+                ],
+                layout: 'celticCross'
+            }
+        };
+
+        // --- CORE LOGIC ---
+
+        // 1. Parse the raw card data into a usable array of objects
+        function parseCards(rawData) {
+            const cards = [];
+            const cardBlocks = rawData.trim().split('***');
+
+            cardBlocks.forEach((block, index) => {
+                if (!block.trim()) return;
+
+                const lines = block.trim().split('\n').map(line => line.trim()).filter(line => line);
+                const name = lines[0];
+                const uprightIndex = lines.findIndex(line => line.toUpperCase() === 'UPRIGHT');
+                const reversedIndex = lines.findIndex(line => line.toUpperCase() === 'REVERSED');
+
+                const uprightKeywords = lines.slice(uprightIndex + 1, reversedIndex).join(', ');
+                const reversedKeywords = lines.slice(reversedIndex + 1).join(', ');
+
+                // Generate the image filename based on index and name
+                const paddedIndex = String(index).padStart(2, '0');
+                const imageName = name.toLowerCase().replace(/ /g, '_');
+                const imageFile = `cards/${paddedIndex}_${imageName}.jpg`;
+
+                cards.push({
+                    name,
+                    upright: uprightKeywords,
+                    reversed: reversedKeywords,
+                    imageFile: imageFile
+                });
+            });
+            return cards;
+        }
+
+        // 2. Shuffle an array (Fisher-Yates algorithm)
+        function shuffleDeck(deck) {
+            let currentIndex = deck.length;
+            let randomIndex;
+
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [deck[currentIndex], deck[randomIndex]] = [deck[randomIndex], deck[currentIndex]];
+            }
+            return deck;
+        }
+
+        // 3. Draw cards for a reading
+        function performReading(spreadKey) {
+            const spread = spreads[spreadKey];
+            if (!spread) return;
+
+            const fullDeck = parseCards(cardDataRaw);
+            const shuffled = shuffleDeck([...fullDeck]); // Use a copy
+
+            const drawnCards = [];
+            for (let i = 0; i < spread.count; i++) {
+                const card = shuffled.pop();
+                drawnCards.push({
+                    ...card,
+                    isReversed: Math.random() < 0.5, // 50% chance of being reversed
+                    position: spread.positions[i]
+                });
+            }
+
+            displayReading(drawnCards, spread);
+        }
+
+        // --- UI MANIPULATION ---
+
+        // 4. Generate the HTML for a single card
+        function createCardElement(card) {
+            const orientation = card.isReversed ? 'Reversed' : 'Upright';
+            const description = card.isReversed ? card.reversed : card.upright;
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card bg-slate-900 p-4 rounded-lg shadow-xl border border-amber-500/20 flex flex-col';
+
+            cardElement.innerHTML = `
+                <div class="card-image-container">
+                    <img
+                        src="${card.imageFile}"
+                        alt="Image of ${card.name}"
+                        class="card-image ${card.isReversed ? 'reversed' : ''}"
+                        onerror="this.onerror=null;this.src='https://placehold.co/200x300/374151/E0E0E0?text=Image+Not+Found';"
+                    >
+                </div>
+                <div class="text-center flex-grow flex flex-col">
+                    <p class="text-sm font-bold text-amber-400 uppercase tracking-wider">${card.position}</p>
+                    <h3 class="text-2xl font-title text-slate-100 mt-1">${card.name}</h3>
+                    <p class="text-xs italic text-slate-400 mt-1">${orientation}</p>
+                </div>
+                <div class="mt-2 text-center border-t border-slate-700 pt-2 h-24 flex items-center justify-center">
+                    <p class="text-slate-300 text-sm card-description">${description}</p>
+                </div>
+            `;
+            return cardElement;
+        }
+
+        // 5. Display the reading on the page
+        function displayReading(cards, spread) {
+            const container = document.getElementById('reading-container');
+            const welcomeMessage = document.getElementById('welcome-message');
+
+            welcomeMessage.style.display = 'none'; // Hide welcome message
+            container.innerHTML = ''; // Clear previous reading
+            container.className = `layout-${spread.layout}`; // Apply layout class
+
+            // Add a title for the spread
+            const spreadTitle = document.createElement('h2');
+            spreadTitle.className = 'text-3xl font-title text-amber-300 text-center col-span-full mb-4';
+            spreadTitle.textContent = spread.name;
+            container.appendChild(spreadTitle);
+
+            // Special handling for Celtic Cross layout
+            if (spread.layout === 'celticCross') {
+                const mainCrossContainer = document.createElement('div');
+                mainCrossContainer.className = 'celtic-cross-main';
+
+                const staffContainer = document.createElement('div');
+                staffContainer.className = 'celtic-cross-staff';
+
+                const mainCrossCardElements = cards.slice(0, 6).map(card => createCardElement(card));
+
+                // Make the top card (card 2) clickable to reveal the one underneath
+                if (mainCrossCardElements.length > 1) {
+                    const topCard = mainCrossCardElements[1];
+                    topCard.title = "Click to reveal card underneath";
+                    topCard.addEventListener('click', () => {
+                        topCard.classList.toggle('lifted');
+                    });
+                }
+
+                mainCrossCardElements.forEach(el => mainCrossContainer.appendChild(el));
+                cards.slice(6).forEach(card => staffContainer.appendChild(createCardElement(card)));
+
+                container.appendChild(mainCrossContainer);
+                container.appendChild(staffContainer);
+            } else {
+                // Default handling for other spreads
+                cards.forEach(card => {
+                    container.appendChild(createCardElement(card));
+                });
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const spreadButtons = document.querySelectorAll('.spread-btn');
+            spreadButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const spreadKey = button.dataset.spread;
+                    performReading(spreadKey);
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
