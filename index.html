@@ -258,9 +258,9 @@
         .next-section {
             display: none;
             text-align: center;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(244, 208, 63, 0.2);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(244, 208, 63, 0.2);
         }
         
         .next-section.visible {
@@ -373,7 +373,7 @@
         <div class="screen start-screen active" id="startScreen">
             <div class="intro">
                 <p>I've been informed some of you didn't do the reading.</p>
-                <p style="margin-top: 1rem;">So let's relive some childhood trauma of "I didn't do the reading for school and now there's a quiz."</p>
+                <p style="margin-top: 1rem;">How about we all relive some childhood trauma of "I didn't study and now there's a quiz."</p>
                 <p style="margin-top: 1rem;">There are no stakes. No one is keeping score.</p>
                 <p style="margin-top: 1rem; color: #b8a88a;">But I did ask a robot to sass you for getting things wrong.</p>
             </div>
@@ -388,11 +388,11 @@
             
             <p class="instruction" id="instruction">Tap to pick the truth</p>
             
-            <div class="cards" id="cardsContainer"></div>
-            
             <div class="next-section" id="nextSection">
                 <button class="next-btn" id="nextBtn" onclick="nextPanel()">Next →</button>
             </div>
+            
+            <div class="cards" id="cardsContainer"></div>
         </div>
         
         <div class="screen interstitial" id="interstitialScreen">
@@ -423,17 +423,17 @@
                     {
                         text: "A trail of blood flows through the streets, turns corners, goes down steps, climbs curbs, and travels across the entire town to find a mother and inform her of her son's death.",
                         truth: true,
-                        sass: "Correct. José Arcadio's blood has better GPS than Google Maps. It navigates through Macondo like it has somewhere to be. Because it does. It has to tell mom."
+                        sass: "Correct. José Arcadio's blood has better GPS than your Uber driver. It navigates through Macondo, makes turns, climbs stairs, avoids traffic, and delivers the news of his death directly to mom. The blood has ONE JOB and it does it flawlessly. Employee of the month."
                     },
                     {
                         text: "Colonel Aureliano Buendía, facing the firing squad at dawn, is saved when a great eagle descends from the Sierra Nevada and carries him beyond the mountains, fulfilling the prophecy his mother whispered over his cradle.",
                         truth: false,
-                        sass: "You fool! This is Lord of the Rings. In Macondo, nobody is saved at the last minute by convenient birds. The firing squad happens. People just survive it sometimes. By not getting shot."
+                        sass: "You fool! This is Lord of the Rings. 'The eagles are coming!' In Macondo, nobody is saved at the last minute by convenient birds. The firing squad happens. The Colonel survives by the normal method of not getting shot. Tolkien would never."
                     },
                     {
                         text: "A scientist visiting Macondo reveals he has invented a form of ice that is stable at room temperature, and when a single shard falls into the river, the entire water supply crystallizes, killing everyone who drinks it.",
                         truth: false,
-                        sass: "You fool! This is Cat's Cradle. Ice-nine. Kurt Vonnegut. Macondo has plenty of apocalyptic nonsense but it's not THIS apocalyptic nonsense. García Márquez destroys his town with wind, not thermodynamics."
+                        sass: "You fool! This is Cat's Cradle. Ice-nine. Kurt Vonnegut. Macondo DOES have ice as a magical plot device — it's the first sentence of the book — but it's regular ice that melts. García Márquez destroys his town with wind, not thermodynamics. Different apocalypse energy."
                     }
                 ]
             },
@@ -443,17 +443,17 @@
                     {
                         text: "It rains continuously for four years, eleven months, and two days, until the streets turn to mud and the houses begin to rot.",
                         truth: true,
-                        sass: "Correct. The rain comes after the banana company massacre. Everyone just... waits. For almost five years. Úrsula is convinced the world is ending. Honestly, fair."
+                        sass: "Correct. Almost five years of uninterrupted rain. Not a drizzle. Not 'rainy season.' RAIN. Every day. The houses rot. The streets become rivers. Úrsula starts counting and doesn't stop. This is what happens when you massacre banana workers, apparently. The sky holds a grudge."
                     },
                     {
                         text: "It rains for forty days and forty nights, and José Arcadio Buendía, guided by a dream, builds a great wooden ark and loads it with two of every animal from the jungle.",
                         truth: false,
-                        sass: "You fool! This is the Bible. García Márquez does biblical allusions, but he doesn't just copy-paste Genesis. The rain lasts four YEARS, not forty days. No ark. Just suffering."
+                        sass: "You fool! This is the Bible. García Márquez does biblical allusions, but he doesn't just Ctrl+C Genesis. Forty days? Amateur hour. Try four YEARS, eleven MONTHS, and two DAYS. No ark. No animals. Just waiting. The Bible had better pacing."
                     },
                     {
                         text: "Enormous metal cylinders fall from the sky and disgorge Martian invaders who nearly conquer Macondo with their heat rays, but are ultimately defeated when they all die of common bacterial infections because they lack adaptive immune systems.",
                         truth: false,
-                        sass: "You fool! This is War of the Worlds. H.G. Wells. Also, as any biologist will tell you, this has never made sense — pathogens are adapted to their hosts. Martian biology wouldn't just catch a cold. But Wells didn't ask us."
+                        sass: "You fool! This is War of the Worlds. H.G. Wells. Also, quick sidebar: as any biologist will tell you, this plot point has never made sense. Pathogens are adapted to their hosts. Martian biology wouldn't just 'catch a cold.' But Wells didn't consult the immunology department. Neither did Spielberg."
                     }
                 ]
             },
@@ -463,17 +463,17 @@
                     {
                         text: "A Spanish galleon is discovered in the middle of the jungle, miles from any ocean, its masts tangled in orchids.",
                         truth: true,
-                        sass: "Correct. José Arcadio Buendía finds it while exploring. It's ancient, landlocked, and covered in flowers. Nobody explains how it got there. The book doesn't care. Neither should you."
+                        sass: "Correct. Just a whole-ass 16th century Spanish galleon, sitting in the jungle, covered in flowers, vibing. How did it get there? The book doesn't say. The book doesn't care. You shouldn't either. Just accept it. This is magical realism. The ship is there. Move on."
                     },
                     {
                         text: "José Arcadio Buendía draws a map of Macondo so perfect and so detailed that it becomes the territory itself, and the family must burn it before the town disappears entirely into paper.",
                         truth: false,
-                        sass: "You fool! This is Borges. 'On Exactitude in Science.' García Márquez and Borges are both Latin American magical realists but they're not the SAME GUY. Maps stay maps in Macondo."
+                        sass: "You fool! This is Borges. 'On Exactitude in Science.' Yes, García Márquez and Borges are both Latin American magical realists. No, they are not the SAME GUY. This is like confusing the Beatles with the Rolling Stones because they're both British. Maps stay maps in Macondo."
                     },
                     {
                         text: "José Arcadio Buendía becomes obsessed with a great white caiman that took his brother's arm in the swamp, and spends nineteen years hunting it, dragging the town into his monomaniacal quest.",
                         truth: false,
-                        sass: "You fool! This is Moby Dick with a crocodile. José Arcadio Buendía DOES go mad with obsession, but over alchemy and magnets, not reptile vengeance."
+                        sass: "You fool! This is Moby Dick with a crocodile. 'Call me José Arcadio.' He DOES go magnificently, catastrophically mad, but over alchemy and magnets and trying to photograph God. Not reptile revenge. His obsessions are more theoretical."
                     }
                 ]
             },
@@ -483,17 +483,17 @@
                     {
                         text: "A mechanic named Mauricio Babilonia is followed everywhere by yellow butterflies that appear whenever he is near, fluttering around him even when he sneaks into his lover's bathroom.",
                         truth: true,
-                        sass: "Correct. The butterflies are so constant they eventually give away his secret affair with Meme. He gets shot by guards, paralyzed, and dies decades later in solitude. The butterflies remain iconic."
+                        sass: "Correct. The butterflies are DEEPLY inconvenient for a secret affair. 'Why are there butterflies in the bathroom?' 'No reason.' He gets shot by guards, paralyzed, and dies decades later in solitude, still surrounded by butterflies. The butterflies remain iconic. Mauricio remains dead."
                     },
                     {
                         text: "The rival town of Riohacha sends Macondo a gift of a giant wooden horse, and José Arcadio Buendía, despite Úrsula's warnings, wheels it through the gates, only to discover soldiers hidden inside.",
                         truth: false,
-                        sass: "You fool! This is the Iliad. The Trojan Horse. Macondo's enemies use banana companies and firing squads, not elaborate wooden sculpture. Also Úrsula would never let a wooden horse in the house."
+                        sass: "You fool! This is the Iliad. The Trojan Horse. Three thousand years old and still working. Macondo's enemies use banana companies and firing squads, not elaborate arts and crafts. Also Úrsula would NEVER. She would have that horse dismantled for firewood before it crossed the threshold."
                     },
                     {
                         text: "A spice is discovered in the swamps outside Macondo that, when consumed, grants perfect prescience, allowing users to see all possible futures, but also turns their eyes completely blue.",
                         truth: false,
-                        sass: "You fool! This is Dune. The spice melange. Frank Herbert. Macondo has plenty of prophetic visions but they come from gypsy parchments, not psychoactive cinnamon. The eyes stay normal."
+                        sass: "You fool! This is Dune. The spice melange. The spice must flow. Macondo has plenty of prophetic visions but they come from gypsy parchments written in Sanskrit, not psychoactive cinnamon. Also nobody's eyes turn blue. They just have normal eyes and abnormal destinies."
                     }
                 ]
             },
@@ -906,17 +906,17 @@
                     {
                         text: "Every problem whose solution can be verified in polynomial time can also be solved in polynomial time.",
                         truth: false,
-                        sass: "You fool! If this were true, all modern cryptography would collapse. Your bank account, your passwords, your encrypted messages — all trivially crackable. Society would crumble. It's unproven. We're fine. For now."
+                        sass: "You fool! If P=NP were true, every password ever created could be cracked instantly. Your bank account, your medical records, your Netflix profile that you said was for 'the kids' — all exposed. Cryptography would collapse. Society would crumble. It's unproven. Sleep tight."
                     },
                     {
                         text: "Every simply connected, closed 3-manifold is homeomorphic to the 3-sphere.",
                         truth: true,
-                        sass: "Correct. Grigori Perelman proved this in 2003, refused the million-dollar prize, and now lives with his mother in St. Petersburg. Mathematicians are a different breed."
+                        sass: "Correct. Grigori Perelman proved this in 2003, refused the million-dollar prize, refused the Fields Medal, and now lives with his mother in St. Petersburg collecting mushrooms. He doesn't give interviews. He doesn't want your money. He just wanted to prove the thing. Mathematicians are built different."
                     },
                     {
                         text: "The Riemann zeta function has its zeros only at the negative even integers and complex numbers with real part 1/2.",
                         truth: false,
-                        sass: "You fool! Unproven. There's a million dollars waiting if you've got it. Please email the Clay Mathematics Institute and not your book club."
+                        sass: "You fool! The Riemann Hypothesis. Unproven since 1859. There's a million dollars waiting if you can crack it. But you can't. No one can. It's probably true. 'Probably' doesn't win prizes. Email the Clay Mathematics Institute when you've got something. Not before."
                     }
                 ]
             },
@@ -946,17 +946,17 @@
                     {
                         text: "A bounded sphere S² in ℝ³ can be partitioned into finitely many pieces and reassembled via rigid motions into two spheres identical to the original.",
                         truth: true,
-                        sass: "Correct. The Banach-Tarski paradox. You can duplicate a sphere using just five pieces. It requires the Axiom of Choice, which is the 'I'm just going to assume I can do this' axiom. Math is fake."
+                        sass: "Correct. The Banach-Tarski paradox. You can take one orange, cut it into five pieces, rearrange them, and get TWO ORANGES. Same size. Same everything. Infinite oranges if you keep going. This is real mathematics. It works because infinity is weird and the pieces are 'non-measurable' which means 'don't think about it too hard.' Math is a scam."
                     },
                     {
                         text: "√2 ∈ ℚ",
                         truth: false,
-                        sass: "You fool! The square root of 2 is irrational. The Pythagoreans discovered this and allegedly drowned the guy who proved it. Math has always been toxic."
+                        sass: "You fool! The square root of 2 is irrational. The Pythagoreans discovered this and, according to legend, drowned the guy who proved it. Hippasus. Thrown overboard for discovering that math doesn't always cooperate. The first mathematical murder. Academia has always been toxic."
                     },
                     {
                         text: "For every polynomial equation of degree n ≥ 5, there exists a general solution in radicals.",
                         truth: false,
-                        sass: "You fool! Galois proved this false and then died in a duel at twenty. Mathematicians are NOT okay."
+                        sass: "You fool! Évariste Galois proved this false, wrote it all down the night before a duel, and died at twenty from a bullet to the gut over some girl. His last words: 'Don't cry, I need all my courage to die at twenty.' Mathematicians are NOT okay. They have NEVER been okay."
                     }
                 ]
             },
@@ -966,12 +966,12 @@
                     {
                         text: "Stay.",
                         truth: false,
-                        sass: "You fool! If you go there will be trouble. But if you stay it will be DOUBLE. Basic arithmetic. Staying doubles your trouble. Go minimizes trouble by 50%. The Clash understood optimization."
+                        sass: "You fool! Let's do the math. If you GO, there will be trouble. If you STAY, it will be DOUBLE. Going = trouble. Staying = 2(trouble). This is basic algebra. The Clash gave you all the information you need. They even repeated it multiple times at increasing volume. Staying DOUBLES your trouble. Why would you double your trouble?"
                     },
                     {
                         text: "Go.",
                         truth: true,
-                        sass: "Correct. Trouble is inevitable, but staying doubles it. The Clash were applied mathematicians."
+                        sass: "Correct. Trouble is inevitable either way, but staying doubles it. The Clash were applied mathematicians. They did the cost-benefit analysis. They put it in 4/4 time so you could dance to it. The answer was always 'go.' It's right there in the song. The punk rock Operations Research department has spoken."
                     }
                 ]
             },
@@ -981,17 +981,17 @@
                     {
                         text: "A rose by any other name would smell as sweet.",
                         truth: false,
-                        sass: "You fool! Juliet was being rhetorical. She was also fourteen and died three days later. Don't take advice from her."
+                        sass: "You fool! Juliet was being rhetorical. She was a 13-year-old having her first crush. She died three days later. Her boyfriend died three days later. Multiple other people also died. Do not take philosophical advice from Romeo and Juliet. The play is not a how-to guide. It's a warning."
                     },
                     {
                         text: "The essence of one's identity.",
                         truth: false,
-                        sass: "You fool! You're overthinking this. A name is a sequence of letters. That's what's in it. Letters."
+                        sass: "You fool! Too philosophical. Way too philosophical. You're overthinking this. I asked what's IN a name. Physically. Materially. What is a name composed of? Not vibes. Not essence. Not identity. Letters. A name has letters in it."
                     },
                     {
                         text: "Letters.",
                         truth: true,
-                        sass: "Correct. Between three and twenty-eight letters, typically. Sometimes a hyphen. That's what's in there."
+                        sass: "Correct. Between three and twenty-eight letters, typically. Sometimes a hyphen. Sometimes an apostrophe. Occasionally numbers if your parents were cruel. That's what's in a name. Letters. You're welcome."
                     }
                 ]
             },
@@ -1001,17 +1001,17 @@
                     {
                         text: "He's on the balcony.",
                         truth: false,
-                        sass: "You fool! JULIET is on the balcony. Romeo is in the garden like a creep. Also you missed the point of the question entirely."
+                        sass: "You fool! JULIET is on the balcony. Romeo is in the garden below, lurking in the bushes like a creep, eavesdropping on a teenage girl's late-night monologue. Also — and this is the important part — you got the question completely wrong. 'Wherefore' doesn't mean 'where.'"
                     },
                     {
                         text: "He's in the garden.",
                         truth: false,
-                        sass: "You fool! He IS in the garden, but 'wherefore' doesn't mean 'where.' You got the location right and the vocabulary wrong. This is the worst kind of correct."
+                        sass: "You fool! Okay yes, technically, Romeo IS in the garden. But 'wherefore' doesn't mean 'where.' You answered a question I didn't ask. You got the location right but the vocabulary catastrophically wrong. This is the worst kind of correct. It's like getting full credit for showing your work but the answer is still wrong."
                     },
                     {
                         text: "'Wherefore' means 'why.' She's asking why he has to be a Montague.",
                         truth: true,
-                        sass: "Correct. She's not asking for his GPS coordinates. She's lamenting that his name makes him her enemy. This has been misunderstood for four hundred years."
+                        sass: "Correct. She's not asking for directions. She's asking WHY does this boy — this specific, cute boy from the party — have to be named Montague? Why is his NAME the one name that makes him her enemy? It's a lament about fate, not a GPS request. This has been misunderstood for four hundred years. You're in the 1% who got it right."
                     }
                 ]
             },
@@ -1021,17 +1021,17 @@
                     {
                         text: "Three.",
                         truth: false,
-                        sass: "You fool! D'Artagnan is RIGHT THERE. The book is literally about him joining them. It should be called Four Musketeers but Dumas couldn't count. Or didn't care."
+                        sass: "You fool! D'Artagnan is RIGHT THERE. He's the main character. The entire book is about him joining the musketeers. It should be called 'Four Musketeers' or 'Three Musketeers Plus D'Artagnan' or 'D'Artagnan and His Three Friends.' But no. Dumas went with 'The Three Musketeers' and nobody has questioned it for 180 years. Until now."
                     },
                     {
                         text: "Four.",
                         truth: true,
-                        sass: "Correct. Athos, Porthos, Aramis, and the guy the book is actually about. The title is a lie."
+                        sass: "Correct. Athos, Porthos, Aramis, and D'Artagnan, who is the guy the book is actually about. The title is a lie. The title has always been a lie. Everyone just accepts the lie because 'The Four Musketeers' sounds like a bad sequel. Which it was. They made one in 1974."
                     },
                     {
                         text: "This is a trick question.",
                         truth: false,
-                        sass: "You fool! It's not a trick. It's just wrong. There are four. Dumas was wrong. We've all just accepted it. Read the book. Or don't. D'Artagnan is the main character."
+                        sass: "You fool! It's not a trick. It's just wrong. The title is wrong. Alexandre Dumas wrote a 700-page novel about four guys and called it The THREE Musketeers. Either he couldn't count or he didn't care. Either way, four musketeers. Always has been. 🔫👨‍🚀"
                     }
                 ]
             },
@@ -1116,17 +1116,17 @@
                     {
                         text: "Forks facing uphill, whether traveling forward or in reverse.",
                         truth: true,
-                        sass: "Correct. Forks uphill, load tilted back. This keeps the center of gravity stable. You may operate a forklift. This is more power than most people can handle responsibly."
+                        sass: "Correct. Forks uphill. Load tilted back. This keeps your center of gravity stable and your cargo on the forks instead of on the floor. You are now certified to operate a forklift. This is more power than most people can handle responsibly. Use it wisely. The warehouse depends on you."
                     },
                     {
                         text: "Forks facing downhill for visibility.",
                         truth: false,
-                        sass: "You fool! The load slides off. Gravity exists. You have just killed a coworker with a pallet of drywall. OSHA is en route."
+                        sass: "You fool! 'Visibility' means nothing when the load slides off the forks and crushes your coworker Steve. Gravity doesn't care that you could see better. OSHA is en route. Steve's family is calling a lawyer. You're writing an incident report. Forks uphill. ALWAYS forks uphill."
                     },
                     {
                         text: "I lied on my resume about having this certification.",
                         truth: false,
-                        sass: "You fool! Forklift certification takes four hours. You could have simply gotten certified in the time you've spent pretending. HR knows. HR always knows."
+                        sass: "You fool! Forklift certification takes four hours and costs like $150. You could have simply gotten certified. Instead you chose fraud. HR knows. Your insurance knows. The forklift knows. Steve knew. Steve trusted you. Steve is in the hospital now."
                     }
                 ]
             },
@@ -1136,17 +1136,17 @@
                     {
                         text: "Never hold your breath.",
                         truth: true,
-                        sass: "Correct. Breathe continuously. Your lungs are balloons. As you ascend, air expands. Balloons pop. Don't be a balloon."
+                        sass: "Correct. Your lungs are balloons. As you ascend, pressure decreases. Air expands. Balloons pop. This is called pulmonary barotrauma and it is exactly as bad as it sounds. Breathe continuously. In. Out. In. Out. The ocean doesn't care about your meditation breathing or your 'just hold on a second.' Exhale or explode. Those are your options."
                     },
                     {
                         text: "Always dive with a buddy.",
                         truth: false,
-                        sass: "You fool! The buddy system is important but you can survive being alone. You cannot survive your lungs exploding. Boyle's Law does not care about your social life."
+                        sass: "You fool! The buddy system is important, yes, but you can survive being alone. You cannot survive your lungs popping like a balloon animal at a children's party. Boyle's Law doesn't care about your social life. P₁V₁ = P₂V₂. The math is not negotiable."
                     },
                     {
                         text: "Look cool in the wetsuit.",
                         truth: false,
-                        sass: "You fool! Looking cool is not a safety protocol. The ocean does not perceive your drip. The ocean perceives only pressure differentials and your failure to exhale."
+                        sass: "You fool! Looking cool is not a survival strategy. The ocean does not perceive your drip. The ocean perceives only pressure differentials, dissolved gases, and your failure to continuously exhale. Nobody has ever drowned from being unfashionable. Many have died from held breath."
                     }
                 ]
             },
@@ -1176,17 +1176,17 @@
                     {
                         text: "Red.",
                         truth: false,
-                        sass: "You fool! This is not Die Hard. IEDs are not color-coded for your convenience. Bomb makers do not follow a standardized wiring schema. They WANT you to guess. Guessing is how you become a cloud."
+                        sass: "You fool! This is not a movie. There is no standardized bomb wiring convention. The red wire is not universally 'bad.' Some bomb makers WATCH the same movies you do and wire the red one to explode when cut specifically because people like you think 'red means danger.' You just played yourself. Posthumously. You are now a fine mist."
                     },
                     {
                         text: "Blue.",
                         truth: false,
-                        sass: "You fool! There is no universal 'blue means safe' protocol. Some bomb makers watch the same movies you do and wire accordingly. Congratulations, you just played yourself. Posthumously."
+                        sass: "You fool! 'It's always the blue wire' is advice from someone who has never encountered an actual bomb. Bomb makers are creative. Bomb makers have Netflix. Bomb makers know about your color-based strategy. You are now distributed across several zip codes."
                     },
                     {
                         text: "Neither. Send the robot.",
                         truth: true,
-                        sass: "Correct. The robot costs $150,000. You are, in the military's estimation, more expensive to replace. Send the robot. Watch from a safe distance. If the robot dies, the government will buy another robot."
+                        sass: "Correct. The robot costs $150,000. Training a bomb disposal technician costs more. The robot is expendable. You, according to the military's actuarial tables, are slightly less expendable. This is the nicest thing the military will ever say about you. Send the robot. Maintain a safe distance. If the robot dies, write a heartfelt eulogy. Then requisition another robot."
                     }
                 ]
             },
@@ -1216,17 +1216,17 @@
                     {
                         text: "The patient is waking up.",
                         truth: false,
-                        sass: "You fool! Waking up does not cause a 104° fever and rigid muscles. Waking up causes screaming. This is not screaming. This is every cell in the body deciding to burn ATP like it's going out of style."
+                        sass: "You fool! Waking up does not cause 104° fever and rigid muscles. Waking up causes screaming. If the patient were waking up, they'd be screaming. This patient is not screaming. This patient's muscles have decided to burn through all their ATP at once like they're trying to speedrun metabolism. This is much worse than waking up."
                     },
                     {
                         text: "Malignant hyperthermia.",
                         truth: true,
-                        sass: "Correct. It's a rare genetic reaction to certain anesthetics where skeletal muscles go into hypermetabolic overdrive. Get the dantrolene. NOW. Clock's ticking."
+                        sass: "Correct. A rare genetic reaction to certain anesthetics. The skeletal muscles go into hypermetabolic overdrive. Temperature spikes. CO2 spikes. Muscles go rigid. The patient is cooking from the inside. Dantrolene sodium is the only thing that stops this. You have minutes. The dantrolene is in the cart. GO."
                     },
                     {
                         text: "This is fine. Everything is fine.",
                         truth: false,
-                        sass: "You fool! Nothing is fine. The patient's muscles are consuming themselves. Dantrolene sodium is the only thing that stops this. Why are you still reading this?"
+                        sass: "You fool! NOTHING IS FINE. The patient's muscles are consuming themselves. Every second you spend saying 'this is fine' is a second you're not getting the dantrolene. The mortality rate without treatment is 70%. WITH treatment it's 5%. GET THE DANTROLENE. WHY ARE YOU STILL READING THIS?"
                     }
                 ]
             },
@@ -1236,17 +1236,17 @@
                     {
                         text: "SCRAM stands for Standard Control Rod Axial Movement. Proceed normally.",
                         truth: false,
-                        sass: "You fool! That's a backronym someone made up to sound official. Also 'proceed normally' during a power excursion is how you become Chernobyl. Insert the rods."
+                        sass: "You fool! That's a backronym someone made up in the 1970s to sound official in front of Congress. Also 'proceed normally' during a power excursion is EXACTLY how you get a Chernobyl. 'Proceed normally.' Amazing. Insert the rods. Insert the rods NOW. Why are you still reading?"
                     },
                     {
                         text: "SCRAM may stand for Safety Cut Rope Axe Man. Insert all control rods immediately.",
                         truth: true,
-                        sass: "Correct, sort of. Legend says the first reactor had a guy ready to cut a rope with an axe to drop the control rods. SCRAM means 'stop the reaction by any means necessary.' The rods go in. You breathe. Maybe."
+                        sass: "Correct, probably. The legend says Enrico Fermi had a guy with an axe ready to cut the rope holding the control rods over the first reactor in Chicago. If things went wrong: axe → rope → rods fall → reaction stops. Elegant. Terrifying. SCRAM means 'stop everything by any means necessary.' The rods go in. The reactor shuts down. You breathe. Maybe."
                     },
                     {
                         text: "I'm going to step outside for a moment.",
                         truth: false,
-                        sass: "You fool! 'Outside' is where the radiation goes if you don't act. There is no outside. There is only containment or no containment. Do your job."
+                        sass: "You fool! 'Outside' is where the radiation goes if you don't act. You don't get to step outside. There is no outside anymore. There is only containment or no containment. The surrounding zip codes are counting on you. Do. Your. Job."
                     }
                 ]
             },
@@ -1316,17 +1316,17 @@
                     {
                         text: "The side facing the direction you want the tree to fall.",
                         truth: true,
-                        sass: "Correct. Notch on the fall side, one-third of the diameter deep. Back cut slightly above the notch, leaving a hinge. The hinge is everything. Respect the hinge."
+                        sass: "Correct. Notch on the fall side. The notch creates a hinge. The hinge controls the fall. This is physics. The tree WANTS to fall toward the notch. One-third of the diameter deep. Back cut slightly above the notch on the opposite side. Leave a hinge of wood. The hinge is everything. Respect the hinge. Love the hinge. The hinge is between you and a lawsuit."
                     },
                     {
                         text: "The side opposite the direction you want the tree to fall.",
                         truth: false,
-                        sass: "You fool! The notch is the hinge. You just put the hinge on the wrong side. The tree is now falling toward the house. You are about to become a viral video."
+                        sass: "You fool! You just put the hinge on the wrong side. The tree is now falling TOWARD THE HOUSE. The homeowner is watching from the kitchen window. The homeowner's lawyer is already on speed dial. Your insurance premium is about to become a meme. You are now a viral TikTok. 'TIMBER' but make it a tragedy."
                     },
                     {
                         text: "I'll just push it the right way when it starts to go.",
                         truth: false,
-                        sass: "You fool! A tree weighs thousands of pounds. You cannot redirect a falling tree with your hands. This is not a cartoon. Bugs Bunny has lied to you."
+                        sass: "You fool! The average tree weighs 2,000 to 5,000 pounds. You weigh, what, 180? You cannot redirect several tons of falling wood with your hands. This is not a cartoon. Bugs Bunny has lied to you. Tom and Jerry has lied to you. The tree is going where the tree is going. That's why you cut the notch right the FIRST time."
                     }
                 ]
             },
@@ -1336,17 +1336,17 @@
                     {
                         text: "Wombat poop is cube-shaped.",
                         truth: true,
-                        sass: "Correct. Cube poop. It's so it doesn't roll away. Nature is unwell."
+                        sass: "Correct. Cube poop. Little dice. Wombats produce 80-100 cubes per night. Why cubes? So it doesn't roll away. They use their poop to mark territory and communicate. Spherical poop would roll downhill. Cube poop stays put. Evolution solved this problem by making their intestines have varying elasticity which shapes the feces into cubes. Nature is an engineer. Nature is also completely unhinged."
                     },
                     {
                         text: "Dolphins sleep with both eyes closed but only half their brain.",
                         truth: false,
-                        sass: "You fool! Close — dolphins DO sleep with half their brain, but they keep one eye OPEN. You added an eye. Greedy."
+                        sass: "You fool! SO close. Dolphins DO sleep with half their brain at a time — this is real, it's called unihemispheric slow-wave sleep — but they keep one eye OPEN. The open eye is controlled by the awake half. You added an extra closed eye. Greed. Hubris. Incorrect."
                     },
                     {
                         text: "Octopuses have nine brains and three of them are devoted to spite.",
                         truth: false,
-                        sass: "You fool! They have nine brains but none are devoted to spite. That we know of."
+                        sass: "You fool! They DO have nine brains — one central brain and eight arm brains. But none are confirmed to be devoted to spite. Yet. We haven't been able to get them to fill out personality assessments. The octopus refuses to cooperate. This is, itself, suspicious."
                     }
                 ]
             },
@@ -1376,17 +1376,17 @@
                     {
                         text: "60-80 per minute.",
                         truth: false,
-                        sass: "You fool! Too slow. The heart wants to pump at 100+ BPM. Match its energy. This person is dying and you're doing a waltz."
+                        sass: "You fool! Too slow. The heart pumps at 100+ BPM when it's working. You need to match that energy. At 60-80, you're doing a waltz with a dying person. This is CPR, not ballroom dancing. Speed it up. Their life depends on it. Literally."
                     },
                     {
                         text: "100-120 per minute.",
                         truth: true,
-                        sass: "Correct. The tempo of 'Stayin' Alive' by the Bee Gees is 104 BPM. The Bee Gees want you to survive. Push to the beat. Ah, ah, ah, ah, stayin' alive."
+                        sass: "Correct. The tempo of 'Stayin' Alive' by the Bee Gees is 104 BPM. This is not a coincidence. The American Heart Association endorses this. The Bee Gees were prophets. Push to the beat. 'Ah, ah, ah, ah, stayin' alive, stayin' alive.' That person's survival is now a disco song. You're welcome."
                     },
                     {
                         text: "As fast as possible.",
                         truth: false,
-                        sass: "You fool! Faster is not better. Above 120, you're not allowing full chest recoil. You're just vibrating a corpse. Precision matters."
+                        sass: "You fool! This isn't a speed run. Above 120, you're not allowing full chest recoil. The heart needs to refill between compressions. You're not saving them, you're just vigorously jostling a corpse. There's an optimal speed. That speed is disco."
                     }
                 ]
             },
@@ -1416,17 +1416,17 @@
                     {
                         text: "A deed transferring property to a stranger.",
                         truth: false,
-                        sass: "You fool! You can notarize a stranger's deed. You just verify identity and witness the signature. You're not the real estate police."
+                        sass: "You fool! You can absolutely notarize a stranger's deed. You verify their identity, watch them sign, apply the stamp. Done. You're not the real estate police. You're not approving the transaction. You're just confirming that the person who signed is who they say they are. That's the whole job."
                     },
                     {
                         text: "A will naming you as the sole beneficiary.",
                         truth: true,
-                        sass: "Correct. You cannot notarize any document in which you have a personal interest. This is called 'notarizing yourself into an inheritance' and it is fraud. The stamp knows."
+                        sass: "Correct. You cannot notarize documents where you have a beneficial interest. This is called 'notarizing yourself into grandma's estate' and it is fraud. The stamp is a sacred trust. The stamp has ethics. The stamp KNOWS. Don't try to sneak one past the stamp."
                     },
                     {
                         text: "I just wanted a stamp and now there's ethics involved.",
                         truth: false,
-                        sass: "You fool! The stamp is a sacred trust. The stamp means you verified identity and witnessed a voluntary signature. Respect the stamp."
+                        sass: "You fool! There was ALWAYS ethics involved. The stamp is not a toy. The stamp is not decoration. Every notarization is a small act of witnessed truth. You are certifying that a real human really signed a real document with real intent. This is civilization. Respect the stamp."
                     }
                 ]
             },
@@ -1436,17 +1436,17 @@
                     {
                         text: "Speed up to make it through the intersection.",
                         truth: false,
-                        sass: "You fool! This is the wrong answer on the test and the right answer in practice. The DMV lives in a fantasy world where people slow down for yellows."
+                        sass: "You fool! This is the wrong answer on the test and the correct answer in practice. Everyone knows this. The DMV knows this. They pretend not to know. The entire driver's license exam is a shared hallucination where we all agree to lie about yellow lights. You're taking a test. Lie appropriately."
                     },
                     {
                         text: "Stop if it is safe to do so.",
                         truth: true,
-                        sass: "Correct. This is the answer the DMV wants. Whether you will actually do this in practice is between you and your insurance premiums."
+                        sass: "Correct. This is what the DMV wants you to say. Will you do this in real life? We both know the answer. But this is a test, and on tests, we pretend that people slow down for yellow lights. Your insurance premiums reflect reality. This question reflects a beautiful fiction."
                     },
                     {
                         text: "Honk and assert dominance.",
                         truth: false,
-                        sass: "You fool! Honking does not extend the yellow. The light does not fear you. You are not in charge here."
+                        sass: "You fool! The light does not respond to honking. The light does not perceive your horn. The light does not fear you. The light is on a timer. The light has been on a timer the whole time. You are not in charge here. You have never been in charge here."
                     }
                 ]
             }
