@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>100 Years of Solitude: Two Lies & A Truth</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            min-height: 100dvh;
+            color: #e8d5b7;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1.25rem;
+            padding-bottom: 3rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            color: #f4d03f;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            margin-bottom: 0.25rem;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #b8a88a;
+            font-size: 1rem;
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        
+        .intro {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(244, 208, 63, 0.2);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .intro strong {
+            color: #f4d03f;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #f4d03f 0%, #c9a227 100%);
+            color: #1a1a2e;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .btn:active {
+            transform: scale(0.96);
+        }
+        
+        .game-screen {
+            padding-bottom: 2rem;
+        }
+        
+        .progress {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #b8a88a;
+            font-size: 0.9rem;
+        }
+        
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(244, 208, 63, 0.3);
+            transition: background 0.3s;
+        }
+        
+        .progress-dot.active {
+            background: #f4d03f;
+        }
+        
+        .progress-dot.done {
+            background: #27ae60;
+        }
+        
+        .instruction {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #f4d03f;
+            margin-bottom: 1rem;
+        }
+        
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.06);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(244, 208, 63, 0.15);
+            transition: transform 0.15s, border-color 0.4s, box-shadow 0.4s;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .card:active:not(.revealed) {
+            transform: scale(0.98);
+        }
+        
+        .card.revealed {
+            cursor: default;
+        }
+        
+        .card.revealed.truth {
+            border-color: #27ae60;
+            box-shadow: 0 0 15px rgba(39, 174, 96, 0.25);
+        }
+        
+        .card.revealed.lie {
+            border-color: #e74c3c;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.25);
+        }
+        
+        .card.revealed.picked {
+            border-width: 3px;
+        }
+        
+        .card-content {
+            padding: 1.25rem;
+        }
+        
+        .card-text {
+            font-size: 1rem;
+            line-height: 1.55;
+        }
+        
+        .card-result {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .card.revealed .card-result {
+            display: block;
+        }
+        
+        .card-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .card.truth .card-badge {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .card.lie .card-badge {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .your-pick {
+            display: none;
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+            color: #9b59b6;
+        }
+        
+        .card.picked .your-pick {
+            display: inline;
+        }
+        
+        .card-sass {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #e8d5b7;
+        }
+        
+        .tap-prompt {
+            display: none;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: #888;
+            font-style: italic;
+        }
+        
+        .card.can-reveal .tap-prompt {
+            display: block;
+        }
+        
+        .card.can-reveal {
+            border-color: rgba(244, 208, 63, 0.4);
+        }
+        
+        .next-section {
+            display: none;
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(244, 208, 63, 0.2);
+        }
+        
+        .next-section.visible {
+            display: block;
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, #f4d03f 0%, #c9a227 100%);
+            color: #1a1a2e;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .next-btn:active {
+            transform: scale(0.96);
+        }
+        
+        /* Interstitial */
+        .interstitial {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .interstitial p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #e8d5b7;
+        }
+        
+        .interstitial .pause {
+            margin-bottom: 2rem;
+        }
+        
+        /* End screen */
+        .end-screen {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .end-screen h2 {
+            font-size: 1.8rem;
+            color: #f4d03f;
+            margin-bottom: 1rem;
+        }
+        
+        .end-screen p {
+            color: #b8a88a;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .butterflies {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .butterfly {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.15;
+            animation: float 25s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #555;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="butterflies" id="butterflies"></div>
+    
+    <div class="container">
+        <header>
+            <h1>📖 100 Years of Solitude</h1>
+            <p class="subtitle">Two Lies & A Truth</p>
+        </header>
+        
+        <div class="screen start-screen active" id="startScreen">
+            <div class="intro">
+                <p>Each panel has <strong>three options</strong> — only ONE is true. The other two are lies.</p>
+                <p style="margin-top: 1rem;"><strong>Tap</strong> the one you think is true.</p>
+                <p style="margin-top: 1rem;">Then tap the others to see what you missed.</p>
+                <p style="margin-top: 1rem; color: #b8a88a;">The wrong answers are funnier than the right ones.</p>
+            </div>
+            <button class="btn" onclick="startGame()">Start</button>
+        </div>
+        
+        <div class="screen game-screen" id="gameScreen">
+            <div class="progress">
+                <span id="progressText">Question 1</span>
+                <div class="progress-dots" id="progressDots"></div>
+            </div>
+            
+            <p class="instruction" id="instruction">Tap to pick the truth</p>
+            
+            <div class="cards" id="cardsContainer"></div>
+            
+            <div class="next-section" id="nextSection">
+                <button class="next-btn" id="nextBtn" onclick="nextPanel()">Next →</button>
+            </div>
+        </div>
+        
+        <div class="screen interstitial" id="interstitialScreen">
+            <p>This concludes the 100 Years of Solitude portion of the evening.</p>
+            <p>I have been informed that some of you did not finish the book.</p>
+            <p>I have also been informed that I do not have enough material.</p>
+            <p class="pause">What follows is... other stuff.</p>
+            <p>You're not expected to know any of it.</p>
+            <p class="pause">Neither do I.</p>
+            <button class="btn" onclick="continueAfterInterstitial()">Continue</button>
+        </div>
+        
+        <div class="screen end-screen" id="endScreen">
+            <h2>🎉 That's it.</h2>
+            <p>You survived.</p>
+            <p>Go discuss the book or whatever.</p>
+            <button class="btn" onclick="resetGame()">Play Again</button>
+        </div>
+        
+        <footer>
+            "The world was so recent that many things lacked names."
+        </footer>
+    </div>
+    
+    <script>
+        const ACT1_PANELS = [
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A trail of blood flows through the streets, turns corners, goes down steps, climbs curbs, and travels across the entire town to find a mother and inform her of her son's death.",
+                        truth: true,
+                        sass: "Correct. José Arcadio's blood has better GPS than Google Maps. It navigates through Macondo like it has somewhere to be. Because it does. It has to tell mom."
+                    },
+                    {
+                        text: "Colonel Aureliano Buendía, facing the firing squad at dawn, is saved when a great eagle descends from the Sierra Nevada and carries him beyond the mountains, fulfilling the prophecy his mother whispered over his cradle.",
+                        truth: false,
+                        sass: "You fool! This is Lord of the Rings. In Macondo, nobody is saved at the last minute by convenient birds. The firing squad happens. People just survive it sometimes. By not getting shot."
+                    },
+                    {
+                        text: "A scientist visiting Macondo reveals he has invented a form of ice that is stable at room temperature, and when a single shard falls into the river, the entire water supply crystallizes, killing everyone who drinks it.",
+                        truth: false,
+                        sass: "You fool! This is Cat's Cradle. Ice-nine. Kurt Vonnegut. Macondo has plenty of apocalyptic nonsense but it's not THIS apocalyptic nonsense. García Márquez destroys his town with wind, not thermodynamics."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "It rains continuously for four years, eleven months, and two days, until the streets turn to mud and the houses begin to rot.",
+                        truth: true,
+                        sass: "Correct. The rain comes after the banana company massacre. Everyone just... waits. For almost five years. Úrsula is convinced the world is ending. Honestly, fair."
+                    },
+                    {
+                        text: "It rains for forty days and forty nights, and José Arcadio Buendía, guided by a dream, builds a great wooden ark and loads it with two of every animal from the jungle.",
+                        truth: false,
+                        sass: "You fool! This is the Bible. García Márquez does biblical allusions, but he doesn't just copy-paste Genesis. The rain lasts four YEARS, not forty days. No ark. Just suffering."
+                    },
+                    {
+                        text: "Enormous metal cylinders fall from the sky and disgorge Martian invaders who nearly conquer Macondo with their heat rays, but are ultimately defeated when they all die of common bacterial infections because they lack adaptive immune systems.",
+                        truth: false,
+                        sass: "You fool! This is War of the Worlds. H.G. Wells. Also, as any biologist will tell you, this has never made sense — pathogens are adapted to their hosts. Martian biology wouldn't just catch a cold. But Wells didn't ask us."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A Spanish galleon is discovered in the middle of the jungle, miles from any ocean, its masts tangled in orchids.",
+                        truth: true,
+                        sass: "Correct. José Arcadio Buendía finds it while exploring. It's ancient, landlocked, and covered in flowers. Nobody explains how it got there. The book doesn't care. Neither should you."
+                    },
+                    {
+                        text: "José Arcadio Buendía draws a map of Macondo so perfect and so detailed that it becomes the territory itself, and the family must burn it before the town disappears entirely into paper.",
+                        truth: false,
+                        sass: "You fool! This is Borges. 'On Exactitude in Science.' García Márquez and Borges are both Latin American magical realists but they're not the SAME GUY. Maps stay maps in Macondo."
+                    },
+                    {
+                        text: "José Arcadio Buendía becomes obsessed with a great white caiman that took his brother's arm in the swamp, and spends nineteen years hunting it, dragging the town into his monomaniacal quest.",
+                        truth: false,
+                        sass: "You fool! This is Moby Dick with a crocodile. José Arcadio Buendía DOES go mad with obsession, but over alchemy and magnets, not reptile vengeance."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A mechanic named Mauricio Babilonia is followed everywhere by yellow butterflies that appear whenever he is near, fluttering around him even when he sneaks into his lover's bathroom.",
+                        truth: true,
+                        sass: "Correct. The butterflies are so constant they eventually give away his secret affair with Meme. He gets shot by guards, paralyzed, and dies decades later in solitude. The butterflies remain iconic."
+                    },
+                    {
+                        text: "The rival town of Riohacha sends Macondo a gift of a giant wooden horse, and José Arcadio Buendía, despite Úrsula's warnings, wheels it through the gates, only to discover soldiers hidden inside.",
+                        truth: false,
+                        sass: "You fool! This is the Iliad. The Trojan Horse. Macondo's enemies use banana companies and firing squads, not elaborate wooden sculpture. Also Úrsula would never let a wooden horse in the house."
+                    },
+                    {
+                        text: "A spice is discovered in the swamps outside Macondo that, when consumed, grants perfect prescience, allowing users to see all possible futures, but also turns their eyes completely blue.",
+                        truth: false,
+                        sass: "You fool! This is Dune. The spice melange. Frank Herbert. Macondo has plenty of prophetic visions but they come from gypsy parchments, not psychoactive cinnamon. The eyes stay normal."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "Colonel Aureliano Buendía, a decorated war hero in his thirties, becomes obsessed with nine-year-old Remedios Moscote, visiting her family daily to watch her play with dolls until she is old enough to marry him.",
+                        truth: true,
+                        sass: "Correct. ACTUALLY REAL. He waits until she gets her first period and then marries her. She dies in childhood. The book does not dwell on how fucked up this is. We will."
+                    },
+                    {
+                        text: "Colonel Aureliano Buendía takes his prepubescent bride to a remote island in the Caribbean, a lawless paradise controlled by a mysterious figure with connections to various European monarchs, American presidents, and celebrated artists.",
+                        truth: false,
+                        sass: "You fool! This isn't from a book. This is in the news. Google it. Actually don't."
+                    },
+                    {
+                        text: "A plain orphan named Fernanda arrives to govern the Buendía children, and despite the burnt ruin of the east wing and the madwoman's laughter in the walls, falls deeply in love with the master of the house.",
+                        truth: false,
+                        sass: "You fool! This is Jane Eyre. Fernanda IS a real character in the book, but she arrives as a beauty queen, not a governess. And there's no madwoman in the attic. Just regular madness everywhere else."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "Three thousand striking banana workers are massacred by the army, their bodies loaded onto a train and dumped into the sea, but by morning the entire town denies it ever happened.",
+                        truth: true,
+                        sass: "Correct. Based on the real 1928 Ciénaga massacre. The government gaslighting is so effective that José Arcadio Segundo spends the rest of his life as the only person who remembers. History is a nightmare."
+                    },
+                    {
+                        text: "José Arcadio Segundo, radicalized by the banana workers' strike, seizes control of Macondo and implements sweeping agricultural reforms, decollectivizing the plantations, opening special economic zones along the river, and declaring that it doesn't matter whether a banana is sold to a liberal or a conservative, so long as it is sold.",
+                        truth: false,
+                        sass: "You fool! This is Deng Xiaoping, second premier of China. José Arcadio Segundo witnesses the strike, but the only reform that follows is a massacre and a century of enforced amnesia."
+                    },
+                    {
+                        text: "Mayor Mayor Mayor Mayor Buendía, so named because his father, delirious with fever during the christening, could only repeat the single word when the priest demanded a name, grows up to become mayor of Macondo under the condition that he can only be visited in his office when he is not there.",
+                        truth: false,
+                        sass: "You fool! This is Catch-22. Major Major Major Major. Joseph Heller. Macondo's absurdity operates on fate and curses, not bureaucratic paradox. Names repeat because of destiny, not paperwork."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "Colonel Aureliano Buendía spends his final decades in his workshop making tiny gold fish, then melting them down, then remaking them, then melting them again, in an endless cycle until he dies standing up while pissing against a tree.",
+                        truth: true,
+                        sass: "Correct. This is real. He melts them. He remakes them. He melts them again. Then he dies mid-piss against the same chestnut tree his father was tied to. The Buendías know how to make an exit."
+                    },
+                    {
+                        text: "Aureliano commissions a portrait so perfect that it begins to age in his place, and he remains young for forty years while the canvas rots in a locked room.",
+                        truth: false,
+                        sass: "You fool! This is The Picture of Dorian Gray. Oscar Wilde. The Buendías age the normal way — they just sometimes also repeat their ancestors' faces, which is somehow creepier."
+                    },
+                    {
+                        text: "Aureliano Segundo, tormented by dreams of his own intellectual superiority, murders an elderly gypsy pawnbroker with an axe to prove himself beyond ordinary morality, then spends three hundred pages feeling weird about it.",
+                        truth: false,
+                        sass: "You fool! This is Crime and Punishment. Dostoevsky. In Macondo, people kill for love, land, or politics — never for undergraduate philosophy."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "Petra Cotes possesses an unexplained supernatural power that causes any animal in her vicinity to reproduce uncontrollably, making Aureliano Segundo one of the wealthiest men in town through sheer livestock multiplication.",
+                        truth: true,
+                        sass: "Correct. Her presence makes animals fuck with unprecedented enthusiasm. This is the economic engine of an entire subplot. Aureliano Segundo gets rich doing essentially nothing. The book presents this as normal."
+                    },
+                    {
+                        text: "A mouse appears in the Buendía kitchen, and Úrsula, taking pity on it, gives it a cookie. The mouse then asks for milk, then a straw, then a napkin, then a mirror, and so on for seventeen years until the family is bankrupt.",
+                        truth: false,
+                        sass: "You fool! This is If You Give a Mouse a Cookie. Laura Numeroff. A children's book about the slippery slope of rodent hospitality. The Buendías have plenty of financial problems but none of them involve escalating mouse demands."
+                    },
+                    {
+                        text: "José Arcadio wakes one morning to discover he has transformed into an enormous beetle, and the family, no longer surprised by anything, simply slides arepas under his door.",
+                        truth: false,
+                        sass: "You fool! This is Kafka. The Metamorphosis. In Macondo, people become ghosts, ascend to heaven, and get eaten by ants — but they stay human-shaped. Also: arepas was a nice touch."
+                    }
+                ]
+            },
+            {
+                instruction: "How many characters in this book are named Aureliano?",
+                cards: [
+                    {
+                        text: "Twenty-two.",
+                        truth: true,
+                        sass: "Correct. Twenty-two Aurelianos. This is not a typo. García Márquez did this on purpose. Keeping track is your problem, not his."
+                    },
+                    {
+                        text: "Forty-two.",
+                        truth: false,
+                        sass: "You fool! Forty-two is the answer to life, the universe, and everything, but not to the number of Aurelianos. That's Hitchhiker's Guide to the Galaxy. Douglas Adams. Wrong book. Twenty-two."
+                    },
+                    {
+                        text: "3.1415927",
+                        truth: false,
+                        sass: "You fool! That's pi. Pi is not a headcount. You cannot have 3.1415927 Aurelianos. That would be twenty-two Aurelianos and roughly one-seventh of another one. The book is weird but not THAT weird. Twenty-two."
+                    }
+                ]
+            }
+        ];
+        
+        const ACT2_PANELS = [
+            {
+                instruction: "Which has been proven true?",
+                cards: [
+                    {
+                        text: "Every problem whose solution can be verified in polynomial time can also be solved in polynomial time.",
+                        truth: false,
+                        sass: "You fool! If this were true, all modern cryptography would collapse. Your bank account, your passwords, your encrypted messages — all trivially crackable. Society would crumble. It's unproven. We're fine. For now."
+                    },
+                    {
+                        text: "Every simply connected, closed 3-manifold is homeomorphic to the 3-sphere.",
+                        truth: true,
+                        sass: "Correct. Grigori Perelman proved this in 2003, refused the million-dollar prize, and now lives with his mother in St. Petersburg. Mathematicians are a different breed."
+                    },
+                    {
+                        text: "The Riemann zeta function has its zeros only at the negative even integers and complex numbers with real part 1/2.",
+                        truth: false,
+                        sass: "You fool! Unproven. There's a million dollars waiting if you've got it. Please email the Clay Mathematics Institute and not your book club."
+                    }
+                ]
+            },
+            {
+                instruction: "Which is true?",
+                cards: [
+                    {
+                        text: "0.999... = 1",
+                        truth: true,
+                        sass: "Correct. They are the same number. This is not a trick. If you're upset about this, take it up with the concept of limits."
+                    },
+                    {
+                        text: "Every even integer greater than 2 can be expressed as the sum of two primes.",
+                        truth: false,
+                        sass: "You fool! This is Goldbach's Conjecture. Unproven since 1742. It's probably true but math doesn't run on vibes."
+                    },
+                    {
+                        text: "The Collatz conjecture holds for all positive integers.",
+                        truth: false,
+                        sass: "You fool! Unproven. Pick a number, if it's even halve it, if it's odd do 3n+1, and apparently it always reaches 1 but nobody can prove it. Erdős said 'mathematics is not yet ready for such problems.' Ominous."
+                    }
+                ]
+            },
+            {
+                instruction: "Which is true?",
+                cards: [
+                    {
+                        text: "A bounded sphere S² in ℝ³ can be partitioned into finitely many pieces and reassembled via rigid motions into two spheres identical to the original.",
+                        truth: true,
+                        sass: "Correct. The Banach-Tarski paradox. You can duplicate a sphere using just five pieces. It requires the Axiom of Choice, which is the 'I'm just going to assume I can do this' axiom. Math is fake."
+                    },
+                    {
+                        text: "√2 ∈ ℚ",
+                        truth: false,
+                        sass: "You fool! The square root of 2 is irrational. The Pythagoreans discovered this and allegedly drowned the guy who proved it. Math has always been toxic."
+                    },
+                    {
+                        text: "For every polynomial equation of degree n ≥ 5, there exists a general solution in radicals.",
+                        truth: false,
+                        sass: "You fool! Galois proved this false and then died in a duel at twenty. Mathematicians are NOT okay."
+                    }
+                ]
+            },
+            {
+                instruction: "Should I stay or should I go?",
+                cards: [
+                    {
+                        text: "Stay.",
+                        truth: false,
+                        sass: "You fool! If you go there will be trouble. But if you stay it will be DOUBLE. Basic arithmetic. Staying doubles your trouble. Go minimizes trouble by 50%. The Clash understood optimization."
+                    },
+                    {
+                        text: "Go.",
+                        truth: true,
+                        sass: "Correct. Trouble is inevitable, but staying doubles it. The Clash were applied mathematicians."
+                    }
+                ]
+            },
+            {
+                instruction: "What's in a name?",
+                cards: [
+                    {
+                        text: "A rose by any other name would smell as sweet.",
+                        truth: false,
+                        sass: "You fool! Juliet was being rhetorical. She was also fourteen and died three days later. Don't take advice from her."
+                    },
+                    {
+                        text: "The essence of one's identity.",
+                        truth: false,
+                        sass: "You fool! You're overthinking this. A name is a sequence of letters. That's what's in it. Letters."
+                    },
+                    {
+                        text: "Letters.",
+                        truth: true,
+                        sass: "Correct. Between three and twenty-eight letters, typically. Sometimes a hyphen. That's what's in there."
+                    }
+                ]
+            },
+            {
+                instruction: "Wherefore art thou Romeo?",
+                cards: [
+                    {
+                        text: "He's on the balcony.",
+                        truth: false,
+                        sass: "You fool! JULIET is on the balcony. Romeo is in the garden like a creep. Also you missed the point of the question entirely."
+                    },
+                    {
+                        text: "He's in the garden.",
+                        truth: false,
+                        sass: "You fool! He IS in the garden, but 'wherefore' doesn't mean 'where.' You got the location right and the vocabulary wrong. This is the worst kind of correct."
+                    },
+                    {
+                        text: "'Wherefore' means 'why.' She's asking why he has to be a Montague.",
+                        truth: true,
+                        sass: "Correct. She's not asking for his GPS coordinates. She's lamenting that his name makes him her enemy. This has been misunderstood for four hundred years."
+                    }
+                ]
+            },
+            {
+                instruction: "The Three Musketeers. How many musketeers are there?",
+                cards: [
+                    {
+                        text: "Three.",
+                        truth: false,
+                        sass: "You fool! D'Artagnan is RIGHT THERE. The book is literally about him joining them. It should be called Four Musketeers but Dumas couldn't count. Or didn't care."
+                    },
+                    {
+                        text: "Four.",
+                        truth: true,
+                        sass: "Correct. Athos, Porthos, Aramis, and the guy the book is actually about. The title is a lie."
+                    },
+                    {
+                        text: "This is a trick question.",
+                        truth: false,
+                        sass: "You fool! It's not a trick. It's just wrong. There are four. Dumas was wrong. We've all just accepted it. Read the book. Or don't. D'Artagnan is the main character."
+                    }
+                ]
+            },
+            {
+                instruction: "Who would win in a knock-down, drag-out fight?",
+                cards: [
+                    {
+                        text: "Elizabeth Bennet",
+                        truth: true,
+                        sass: "Correct. Lizzy grew up comfortable in the countryside with four sisters — she's been throwing elbows her whole life. Also she's been dealing with her mother for twenty years. She's ready for anything."
+                    },
+                    {
+                        text: "Jane Eyre",
+                        truth: false,
+                        sass: "You fool! You may think Jane, as the scrappier and more determined of the two, would have the edge. However, she was a malnourished orphan in her youth, lending her a slender frame and less imposing physical stature. Lizzy takes this one."
+                    }
+                ]
+            },
+            {
+                instruction: "Which is true about New Haven?",
+                cards: [
+                    {
+                        text: "Frank Pepe's Pizzeria Napoletana serves the best pizza in town.",
+                        truth: false,
+                        sass: "You fool! Clearly Sally's is better. This isn't even about the book, we just needed to see where you stand."
+                    },
+                    {
+                        text: "Sally's Apizza serves the best pizza in town.",
+                        truth: true,
+                        sass: "Correct. This is the right answer. We will not be taking questions."
+                    },
+                    {
+                        text: "Modern Apizza serves the best pizza in town.",
+                        truth: false,
+                        sass: "You fool! Modern is fine. But this is a Pepe's vs Sally's town. Picking Modern is centrist cowardice. Choose a side."
+                    }
+                ]
+            },
+            {
+                instruction: "A 45-year-old male presents with progressive dyspnea and a nonproductive cough. Chest X-ray reveals bilateral hilar lymphadenopathy. A biopsy shows noncaseating granulomas. Which of the following is the most likely diagnosis?",
+                cards: [
+                    {
+                        text: "Sarcoidosis",
+                        truth: true,
+                        sass: "Correct. Bilateral hilar lymphadenopathy with noncaseating granulomas is classic sarcoidosis. Why do you know this. Are you okay."
+                    },
+                    {
+                        text: "Tuberculosis",
+                        truth: false,
+                        sass: "You fool! Tuberculosis has CASEATING granulomas. Noncaseating is sarcoidosis. Did you even study."
+                    },
+                    {
+                        text: "I came here to talk about García Márquez.",
+                        truth: false,
+                        sass: "You fool! The MCAT does not care about your interests. Medicine is suffering. This was a taste."
+                    }
+                ]
+            },
+            {
+                instruction: "Five book club members — Karen, Brian, Yolanda, Thaddeus, and Mx. Pockets — must sit in a row. Karen refuses to sit next to Brian. Yolanda must sit in an even-numbered seat. Thaddeus will only sit at an end. Mx. Pockets has a restraining order against Karen. Which is valid?",
+                cards: [
+                    {
+                        text: "Thaddeus, Yolanda, Brian, Karen, Mx. Pockets",
+                        truth: true,
+                        sass: "Correct. Karen and Mx. Pockets are sufficiently distant. Thaddeus is at an end. Yolanda is in seat 2. Brian is in the middle where he belongs. Order is restored. You could be a lawyer. This is not necessarily a compliment."
+                    },
+                    {
+                        text: "Brian, Yolanda, Thaddeus, Mx. Pockets, Karen",
+                        truth: false,
+                        sass: "You fool! Thaddeus is not at an end. He was very clear about this. You have upset Thaddeus."
+                    },
+                    {
+                        text: "This is why I didn't go to law school.",
+                        truth: false,
+                        sass: "You fool! You have 35 minutes for this section. The LSAT does not care about your life choices."
+                    }
+                ]
+            },
+            {
+                instruction: "When operating a forklift on a ramp or incline, which direction should the forks face?",
+                cards: [
+                    {
+                        text: "Forks facing uphill, whether traveling forward or in reverse.",
+                        truth: true,
+                        sass: "Correct. Forks uphill, load tilted back. This keeps the center of gravity stable. You may operate a forklift. This is more power than most people can handle responsibly."
+                    },
+                    {
+                        text: "Forks facing downhill for visibility.",
+                        truth: false,
+                        sass: "You fool! The load slides off. Gravity exists. You have just killed a coworker with a pallet of drywall. OSHA is en route."
+                    },
+                    {
+                        text: "I lied on my resume about having this certification.",
+                        truth: false,
+                        sass: "You fool! Forklift certification takes four hours. You could have simply gotten certified in the time you've spent pretending. HR knows. HR always knows."
+                    }
+                ]
+            },
+            {
+                instruction: "What is the most important rule in scuba diving?",
+                cards: [
+                    {
+                        text: "Never hold your breath.",
+                        truth: true,
+                        sass: "Correct. Breathe continuously. Your lungs are balloons. As you ascend, air expands. Balloons pop. Don't be a balloon."
+                    },
+                    {
+                        text: "Always dive with a buddy.",
+                        truth: false,
+                        sass: "You fool! The buddy system is important but you can survive being alone. You cannot survive your lungs exploding. Boyle's Law does not care about your social life."
+                    },
+                    {
+                        text: "Look cool in the wetsuit.",
+                        truth: false,
+                        sass: "You fool! Looking cool is not a safety protocol. The ocean does not perceive your drip. The ocean perceives only pressure differentials and your failure to exhale."
+                    }
+                ]
+            },
+            {
+                instruction: "You are flying a single-engine Cessna and the stall warning horn sounds. What is your immediate action?",
+                cards: [
+                    {
+                        text: "Pull back on the yoke to gain altitude.",
+                        truth: false,
+                        sass: "You fool! You just made it worse. Pulling back increases angle of attack and deepens the stall. You are now a lawn dart. Gravity sends its regards."
+                    },
+                    {
+                        text: "Push forward on the yoke to lower the nose and increase airspeed.",
+                        truth: true,
+                        sass: "Correct. Nose down, gain airspeed, recover. It feels wrong to point the plane at the ground when you're falling, which is why pilots train this until it's reflex."
+                    },
+                    {
+                        text: "Turn off the stall warning horn.",
+                        truth: false,
+                        sass: "You fool! The horn is not the problem. The horn is trying to save your life. This is like unplugging a smoke detector during a fire because it's annoying."
+                    }
+                ]
+            },
+            {
+                instruction: "You encounter an improvised explosive device with a red wire and a blue wire. Which wire do you cut?",
+                cards: [
+                    {
+                        text: "Red.",
+                        truth: false,
+                        sass: "You fool! This is not Die Hard. IEDs are not color-coded for your convenience. Bomb makers do not follow a standardized wiring schema. They WANT you to guess. Guessing is how you become a cloud."
+                    },
+                    {
+                        text: "Blue.",
+                        truth: false,
+                        sass: "You fool! There is no universal 'blue means safe' protocol. Some bomb makers watch the same movies you do and wire accordingly. Congratulations, you just played yourself. Posthumously."
+                    },
+                    {
+                        text: "Neither. Send the robot.",
+                        truth: true,
+                        sass: "Correct. The robot costs $150,000. You are, in the military's estimation, more expensive to replace. Send the robot. Watch from a safe distance. If the robot dies, the government will buy another robot."
+                    }
+                ]
+            },
+            {
+                instruction: "Two aircraft are approaching the same fix at the same altitude. The minimum radar separation required in terminal airspace is:",
+                cards: [
+                    {
+                        text: "1 nautical mile.",
+                        truth: false,
+                        sass: "You fool! One nautical mile is 6,076 feet. Jets close that gap in about 20 seconds. You have just created what the NTSB calls an 'incident' and what passengers call 'the last thing they ever saw.'"
+                    },
+                    {
+                        text: "3 nautical miles.",
+                        truth: true,
+                        sass: "Correct. 3 nautical miles in terminal airspace. This gives you time to issue corrections when pilots mishear, misunderstand, or simply space out. And they will. Trust the buffer."
+                    },
+                    {
+                        text: "Just tell one of them to go faster.",
+                        truth: false,
+                        sass: "You fool! 'Go faster' is not an ATC instruction. You cannot outrun convergence. Geometry does not negotiate."
+                    }
+                ]
+            },
+            {
+                instruction: "During surgery, the patient's temperature suddenly spikes to 104°F, muscles become rigid, and end-tidal CO2 is rising rapidly. What is happening?",
+                cards: [
+                    {
+                        text: "The patient is waking up.",
+                        truth: false,
+                        sass: "You fool! Waking up does not cause a 104° fever and rigid muscles. Waking up causes screaming. This is not screaming. This is every cell in the body deciding to burn ATP like it's going out of style."
+                    },
+                    {
+                        text: "Malignant hyperthermia.",
+                        truth: true,
+                        sass: "Correct. It's a rare genetic reaction to certain anesthetics where skeletal muscles go into hypermetabolic overdrive. Get the dantrolene. NOW. Clock's ticking."
+                    },
+                    {
+                        text: "This is fine. Everything is fine.",
+                        truth: false,
+                        sass: "You fool! Nothing is fine. The patient's muscles are consuming themselves. Dantrolene sodium is the only thing that stops this. Why are you still reading this?"
+                    }
+                ]
+            },
+            {
+                instruction: "The reactor control room alarms indicate a rapid, uncontrolled increase in reactor power. What does SCRAM mean and what do you do?",
+                cards: [
+                    {
+                        text: "SCRAM stands for Standard Control Rod Axial Movement. Proceed normally.",
+                        truth: false,
+                        sass: "You fool! That's a backronym someone made up to sound official. Also 'proceed normally' during a power excursion is how you become Chernobyl. Insert the rods."
+                    },
+                    {
+                        text: "SCRAM may stand for Safety Cut Rope Axe Man. Insert all control rods immediately.",
+                        truth: true,
+                        sass: "Correct, sort of. Legend says the first reactor had a guy ready to cut a rope with an axe to drop the control rods. SCRAM means 'stop the reaction by any means necessary.' The rods go in. You breathe. Maybe."
+                    },
+                    {
+                        text: "I'm going to step outside for a moment.",
+                        truth: false,
+                        sass: "You fool! 'Outside' is where the radiation goes if you don't act. There is no outside. There is only containment or no containment. Do your job."
+                    }
+                ]
+            },
+            {
+                instruction: "You are operating a vessel at night and see a red light on your left and a green light on your right. What does this mean?",
+                cards: [
+                    {
+                        text: "Another vessel is approaching head-on.",
+                        truth: true,
+                        sass: "Correct. Red on port, green on starboard, both visible means head-on approach. Both vessels turn to starboard. Congratulations, you will not die at sea tonight."
+                    },
+                    {
+                        text: "Another vessel is crossing from starboard.",
+                        truth: false,
+                        sass: "You fool! If it were crossing from starboard, you'd see only the green. Red AND green means it's coming right at you. You're about to meet another boat owner. Intimately."
+                    },
+                    {
+                        text: "Port and starboard are the same thing, right?",
+                        truth: false,
+                        sass: "You fool! Port is left (both have four letters). Starboard is right. This is day one. The sea does not forgive."
+                    }
+                ]
+            },
+            {
+                instruction: "What is the minimum slope required for a horizontal drain pipe 3 inches or smaller in diameter?",
+                cards: [
+                    {
+                        text: "1/8 inch per foot.",
+                        truth: false,
+                        sass: "You fool! 1/8 inch per foot is for pipes LARGER than 3 inches. Smaller pipes need more slope. You've just created a clog factory. Somewhere, a plumber's snake is tingling."
+                    },
+                    {
+                        text: "1/4 inch per foot.",
+                        truth: true,
+                        sass: "Correct. 1/4 inch drop per foot. This is the golden ratio of sewage. Too little and it clogs. Too much and the water outruns the solids, which also clogs. Plumbing is an art."
+                    },
+                    {
+                        text: "Flat is fine, water finds a way.",
+                        truth: false,
+                        sass: "You fool! Water finds a way, but sewage does not. Sewage sits there. Sewage ferments. Gravity is not optional in plumbing."
+                    }
+                ]
+            },
+            {
+                instruction: "A crane's load chart indicates a maximum capacity of 5,000 lbs at a 30-foot radius. The load weighs 4,800 lbs. What must you verify before lifting?",
+                cards: [
+                    {
+                        text: "Nothing, you're under the limit.",
+                        truth: false,
+                        sass: "You fool! The load chart capacity includes EVERYTHING hanging from the hook. Slings, shackles, spreader bars — all of it. Your 4,800 lb load plus 300 lbs of rigging equals 5,100 lbs. The crane is now tipping."
+                    },
+                    {
+                        text: "The weight of the rigging must be added to the load.",
+                        truth: true,
+                        sass: "Correct. Gross load = load + rigging + hook block. Always. Exceed the chart and the crane becomes a catapult. You are the projectile."
+                    },
+                    {
+                        text: "The chart is more of a suggestion.",
+                        truth: false,
+                        sass: "You fool! The load chart is a mathematical model of exactly when the crane tips over. Engineers calculated these numbers so you don't die. The chart is not a suggestion. The chart is prophecy."
+                    }
+                ]
+            },
+            {
+                instruction: "You are felling a tree near a structure. The notch cut should be made on which side?",
+                cards: [
+                    {
+                        text: "The side facing the direction you want the tree to fall.",
+                        truth: true,
+                        sass: "Correct. Notch on the fall side, one-third of the diameter deep. Back cut slightly above the notch, leaving a hinge. The hinge is everything. Respect the hinge."
+                    },
+                    {
+                        text: "The side opposite the direction you want the tree to fall.",
+                        truth: false,
+                        sass: "You fool! The notch is the hinge. You just put the hinge on the wrong side. The tree is now falling toward the house. You are about to become a viral video."
+                    },
+                    {
+                        text: "I'll just push it the right way when it starts to go.",
+                        truth: false,
+                        sass: "You fool! A tree weighs thousands of pounds. You cannot redirect a falling tree with your hands. This is not a cartoon. Bugs Bunny has lied to you."
+                    }
+                ]
+            },
+            {
+                instruction: "Which is true?",
+                cards: [
+                    {
+                        text: "Wombat poop is cube-shaped.",
+                        truth: true,
+                        sass: "Correct. Cube poop. It's so it doesn't roll away. Nature is unwell."
+                    },
+                    {
+                        text: "Dolphins sleep with both eyes closed but only half their brain.",
+                        truth: false,
+                        sass: "You fool! Close — dolphins DO sleep with half their brain, but they keep one eye OPEN. You added an eye. Greedy."
+                    },
+                    {
+                        text: "Octopuses have nine brains and three of them are devoted to spite.",
+                        truth: false,
+                        sass: "You fool! They have nine brains but none are devoted to spite. That we know of."
+                    }
+                ]
+            },
+            {
+                instruction: "Which actually happened?",
+                cards: [
+                    {
+                        text: "A war was fought over a bucket. (1325, Italy)",
+                        truth: true,
+                        sass: "Correct. But also they're ALL true. The War of the Bucket, the Emu War, Liechtenstein making a friend — all real. History is just like this."
+                    },
+                    {
+                        text: "Australia lost a war against emus.",
+                        truth: true,
+                        sass: "Correct. But also they're ALL true. History is unhinged."
+                    },
+                    {
+                        text: "Liechtenstein sent 80 soldiers to war and returned with 81 because they made a friend.",
+                        truth: true,
+                        sass: "Correct. But also they're ALL true. Every single one of these happened. History is a fever dream."
+                    }
+                ]
+            },
+            {
+                instruction: "At what rate should you perform chest compressions on an unresponsive adult?",
+                cards: [
+                    {
+                        text: "60-80 per minute.",
+                        truth: false,
+                        sass: "You fool! Too slow. The heart wants to pump at 100+ BPM. Match its energy. This person is dying and you're doing a waltz."
+                    },
+                    {
+                        text: "100-120 per minute.",
+                        truth: true,
+                        sass: "Correct. The tempo of 'Stayin' Alive' by the Bee Gees is 104 BPM. The Bee Gees want you to survive. Push to the beat. Ah, ah, ah, ah, stayin' alive."
+                    },
+                    {
+                        text: "As fast as possible.",
+                        truth: false,
+                        sass: "You fool! Faster is not better. Above 120, you're not allowing full chest recoil. You're just vibrating a corpse. Precision matters."
+                    }
+                ]
+            },
+            {
+                instruction: "In standard US residential wiring, which wire is hot?",
+                cards: [
+                    {
+                        text: "Black.",
+                        truth: true,
+                        sass: "Correct. Black is hot, white is neutral, green or bare copper is ground. This is the holy trinity of not dying. Respect the colors."
+                    },
+                    {
+                        text: "White.",
+                        truth: false,
+                        sass: "You fool! White is neutral. It SHOULD carry no voltage. Should. The word 'should' has killed many electricians. Test everything anyway."
+                    },
+                    {
+                        text: "I've been doing it by feel and I'm still alive.",
+                        truth: false,
+                        sass: "You fool! Electricity is invisible and will kill you without remorse. 'Still alive' is survivorship bias. Buy a multimeter."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of the following documents can you NOT notarize?",
+                cards: [
+                    {
+                        text: "A deed transferring property to a stranger.",
+                        truth: false,
+                        sass: "You fool! You can notarize a stranger's deed. You just verify identity and witness the signature. You're not the real estate police."
+                    },
+                    {
+                        text: "A will naming you as the sole beneficiary.",
+                        truth: true,
+                        sass: "Correct. You cannot notarize any document in which you have a personal interest. This is called 'notarizing yourself into an inheritance' and it is fraud. The stamp knows."
+                    },
+                    {
+                        text: "I just wanted a stamp and now there's ethics involved.",
+                        truth: false,
+                        sass: "You fool! The stamp is a sacred trust. The stamp means you verified identity and witnessed a voluntary signature. Respect the stamp."
+                    }
+                ]
+            },
+            {
+                instruction: "What should you do when approaching a yellow traffic light?",
+                cards: [
+                    {
+                        text: "Speed up to make it through the intersection.",
+                        truth: false,
+                        sass: "You fool! This is the wrong answer on the test and the right answer in practice. The DMV lives in a fantasy world where people slow down for yellows."
+                    },
+                    {
+                        text: "Stop if it is safe to do so.",
+                        truth: true,
+                        sass: "Correct. This is the answer the DMV wants. Whether you will actually do this in practice is between you and your insurance premiums."
+                    },
+                    {
+                        text: "Honk and assert dominance.",
+                        truth: false,
+                        sass: "You fool! Honking does not extend the yellow. The light does not fear you. You are not in charge here."
+                    }
+                ]
+            }
+        ];
+        
+        let allPanels = [];
+        let currentPanel = 0;
+        let interstitialShown = false;
+        let pickedThisRound = false;
+        
+        // Butterflies
+        (function() {
+            const container = document.getElementById('butterflies');
+            for (let i = 0; i < 6; i++) {
+                const b = document.createElement('div');
+                b.className = 'butterfly';
+                b.textContent = '🦋';
+                b.style.left = Math.random() * 100 + '%';
+                b.style.animationDelay = Math.random() * 25 + 's';
+                b.style.animationDuration = (20 + Math.random() * 15) + 's';
+                container.appendChild(b);
+            }
+        })();
+        
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+        
+        function startGame() {
+            // Shuffle cards within each panel
+            const shuffledAct1 = ACT1_PANELS.map(panel => ({
+                ...panel,
+                cards: shuffleArray(panel.cards)
+            }));
+            
+            const shuffledAct2 = shuffleArray(ACT2_PANELS).map(panel => ({
+                ...panel,
+                cards: shuffleArray(panel.cards)
+            }));
+            
+            allPanels = [...shuffledAct1, ...shuffledAct2];
+            currentPanel = 0;
+            interstitialShown = false;
+            
+            document.getElementById('startScreen').classList.remove('active');
+            document.getElementById('gameScreen').classList.add('active');
+            
+            // Create progress dots
+            const dotsContainer = document.getElementById('progressDots');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < allPanels.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+                dotsContainer.appendChild(dot);
+            }
+            
+            renderPanel();
+        }
+        
+        function renderPanel() {
+            // Check if we need to show interstitial
+            if (!interstitialShown && currentPanel >= ACT1_PANELS.length) {
+                showInterstitial();
+                return;
+            }
+            
+            pickedThisRound = false;
+            const panel = allPanels[currentPanel];
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+            
+            document.getElementById('progressText').textContent = `Question ${currentPanel + 1} of ${allPanels.length}`;
+            document.getElementById('instruction').textContent = panel.instruction || "Tap to pick the truth";
+            document.getElementById('nextSection').classList.remove('visible');
+            
+            // Update progress dots
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, i) => {
+                dot.className = 'progress-dot';
+                if (i < currentPanel) dot.classList.add('done');
+                if (i === currentPanel) dot.classList.add('active');
+            });
+            
+            panel.cards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card';
+                cardEl.dataset.index = index;
+                cardEl.dataset.truth = card.truth;
+                
+                cardEl.innerHTML = `
+                    <div class="card-content">
+                        <p class="card-text">${card.text}</p>
+                        <p class="tap-prompt">Tap to see what would've happened</p>
+                        <div class="card-result">
+                            <span class="card-badge">${card.truth ? '✓ TRUTH' : '✗ LIE'}</span>
+                            <span class="your-pick">← your pick</span>
+                            <p class="card-sass">${card.sass}</p>
+                        </div>
+                    </div>
+                `;
+                
+                cardEl.addEventListener('click', () => handleCardTap(cardEl, card));
+                container.appendChild(cardEl);
+            });
+        }
+        
+        function handleCardTap(cardEl, card) {
+            if (cardEl.classList.contains('revealed')) return;
+            
+            if (!pickedThisRound) {
+                // First pick
+                pickedThisRound = true;
+                cardEl.classList.add('picked');
+                cardEl.classList.add('revealed');
+                cardEl.classList.add(card.truth ? 'truth' : 'lie');
+                
+                // Mark other cards as tappable
+                document.querySelectorAll('.card:not(.revealed)').forEach(c => {
+                    c.classList.add('can-reveal');
+                });
+                
+                document.getElementById('nextSection').classList.add('visible');
+            } else {
+                // Subsequent taps
+                cardEl.classList.remove('can-reveal');
+                cardEl.classList.add('revealed');
+                cardEl.classList.add(card.truth ? 'truth' : 'lie');
+            }
+        }
+        
+        function showInterstitial() {
+            document.getElementById('gameScreen').classList.remove('active');
+            document.getElementById('interstitialScreen').classList.add('active');
+        }
+        
+        function continueAfterInterstitial() {
+            interstitialShown = true;
+            document.getElementById('interstitialScreen').classList.remove('active');
+            document.getElementById('gameScreen').classList.add('active');
+            renderPanel();
+        }
+        
+        function nextPanel() {
+            currentPanel++;
+            
+            if (currentPanel >= allPanels.length) {
+                endGame();
+            } else {
+                renderPanel();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function endGame() {
+            document.getElementById('gameScreen').classList.remove('active');
+            document.getElementById('endScreen').classList.add('active');
+        }
+        
+        function resetGame() {
+            document.getElementById('endScreen').classList.remove('active');
+            document.getElementById('startScreen').classList.add('active');
+        }
+    </script>
+</body>
+</html>
