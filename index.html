@@ -48,21 +48,24 @@
         }
         
         .screen {
-            display: none;
+            display: none !important;
         }
         
         .screen.active {
-            display: block;
+            display: flex !important;
         }
         
         .start-screen {
-            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 60vh;
             text-align: center;
             padding: 2rem 1rem;
+        }
+        
+        .game-screen.active {
+            display: block !important;
         }
         
         .intro {
@@ -285,7 +288,6 @@
         /* Interstitial */
         .interstitial {
             min-height: 60vh;
-            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -306,7 +308,6 @@
         /* End screen */
         .end-screen {
             min-height: 60vh;
-            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -371,10 +372,10 @@
         
         <div class="screen start-screen active" id="startScreen">
             <div class="intro">
-                <p>Each panel has <strong>three options</strong> — only ONE is true. The other two are lies.</p>
-                <p style="margin-top: 1rem;"><strong>Tap</strong> the one you think is true.</p>
-                <p style="margin-top: 1rem;">Then tap the others to see what you missed.</p>
-                <p style="margin-top: 1rem; color: #b8a88a;">The wrong answers are funnier than the right ones.</p>
+                <p>I've been informed some of you didn't do the reading.</p>
+                <p style="margin-top: 1rem;">So let's relive some childhood trauma of "I didn't do the reading for school and now there's a quiz."</p>
+                <p style="margin-top: 1rem;">There are no stakes. No one is keeping score.</p>
+                <p style="margin-top: 1rem; color: #b8a88a;">But I did ask a robot to sass you for getting things wrong.</p>
             </div>
             <button class="btn" onclick="startGame()">Start</button>
         </div>
@@ -396,11 +397,9 @@
         
         <div class="screen interstitial" id="interstitialScreen">
             <p>This concludes the 100 Years of Solitude portion of the evening.</p>
-            <p>I have been informed that some of you did not finish the book.</p>
-            <p>I have also been informed that I do not have enough material.</p>
+            <p class="pause">I have run out of material on the book, but hey some people like quizzes so this one keeps going.</p>
+            <p>Continue if you like. Or don't. This isn't school.</p>
             <p class="pause">What follows is... other stuff.</p>
-            <p>You're not expected to know any of it.</p>
-            <p class="pause">Neither do I.</p>
             <button class="btn" onclick="continueAfterInterstitial()">Continue</button>
         </div>
         
@@ -595,6 +594,306 @@
                         text: "3.1415927",
                         truth: false,
                         sass: "You fool! That's pi. Pi is not a headcount. You cannot have 3.1415927 Aurelianos. That would be twenty-two Aurelianos and roughly one-seventh of another one. The book is weird but not THAT weird. Twenty-two."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A woman is so beautiful that she floats up to heaven while folding bedsheets in the garden, rising bodily into the sky as the sheets billow around her.",
+                        truth: true,
+                        sass: "Correct. Remedios the Beauty ascends to heaven while doing laundry. She was too beautiful for this world, apparently. The family is mildly inconvenienced by the loss of the sheets."
+                    },
+                    {
+                        text: "The banana plantation's exploitation of Macondo's workers accelerates until the internal contradictions of capitalism cause the entire economic system to collapse, as the proletariat seizes the means of production.",
+                        truth: false,
+                        sass: "You fool! This is Das Kapital. Karl Marx. The banana company DOES exploit Macondo, but instead of dialectical revolution, there's just a massacre that everyone forgets. Less theory, more amnesia."
+                    },
+                    {
+                        text: "A young governess arrives at the Buendía estate to care for the seven children, teaches them to sing, falls in love with their widowed father, and flees with the family over the mountains to escape a fascist regime.",
+                        truth: false,
+                        sass: "You fool! This is The Sound of Music. Rodgers and Hammerstein. The Buendías don't escape over mountains singing about their favorite things. They stay in Macondo and suffer. No one is solving problems with do-re-mi."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "An entire town stops sleeping for months, and as the insomnia spreads, people begin losing their memories, forgetting what everyday objects are and what they're called.",
+                        truth: true,
+                        sass: "Correct. The insomnia plague is one of the book's early magical catastrophes. People forget everything. They have to label objects. It's mass dementia via sleep deprivation. Fun!"
+                    },
+                    {
+                        text: "A simple waterboy for a local football team discovers that his years of repressed rage can be channeled into athletic excellence, leading him to become a star linebacker.",
+                        truth: false,
+                        sass: "You fool! This is The Waterboy. Adam Sandler. 1998. Macondo has plenty of repressed rage, but no one channels it into sports. They channel it into civil wars and incest. Less wholesome."
+                    },
+                    {
+                        text: "A young woman in Macondo, driven mad by her father's murder and her lover's rejection, drowns herself in the river while singing fragments of old songs and clutching wildflowers.",
+                        truth: false,
+                        sass: "You fool! This is Ophelia, famously from Hamlet by Shakespeare. Also that Taylor Swift song. Also that Lumineers song. Also Desolation Row by Bob Dylan. People really gravitate toward Ophelia. Unclear why. Anyway, wrong book."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "As the insomnia plague worsens, townspeople begin labeling everything — 'COW,' 'TABLE,' 'CLOCK' — so they don't forget what things are. José Arcadio even builds a primitive memory machine.",
+                        truth: true,
+                        sass: "Correct. They literally put signs on things like 'This is a cow. It must be milked every morning.' José Arcadio Buendía builds a dictionary machine with 14,000 entries. It doesn't work. Nothing works."
+                    },
+                    {
+                        text: "José Arcadio Buendía builds a machine that allows him to travel backward and forward through time, visiting both the founding of Macondo and its eventual destruction.",
+                        truth: false,
+                        sass: "You fool! This is The Time Machine by H.G. Wells. How could this be about anything other than The Time Machine? José Arcadio builds a MEMORY machine, not a TIME machine. He's trying to remember, not travel. Big difference."
+                    },
+                    {
+                        text: "A portal is discovered behind a cabinet in the Buendía house that leads directly into the mind of John Malkovich, allowing anyone who enters to experience fifteen minutes as the actor John Malkovich.",
+                        truth: false,
+                        sass: "You fool! This is Being John Malkovich. Spike Jonze. 1999. There is no portal to John Malkovich in Macondo. There are portals to madness, death, and incest, but not to John Malkovich specifically."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "When the patriarch of the family dies tied to a tree, thousands of tiny yellow flowers rain from the sky over the entire town.",
+                        truth: true,
+                        sass: "Correct. When José Arcadio Buendía dies, tiny yellow flowers fall on Macondo all day and all night. They have to clear them with shovels. It's one of the most beautiful death scenes in literature."
+                    },
+                    {
+                        text: "The Buendía family books passage on a supposedly unsinkable ship to flee Macondo, but the vessel strikes an iceberg and sinks, killing most of the passengers while a string quartet plays on.",
+                        truth: false,
+                        sass: "You fool! This is the Titanic. From the movie Titanic. And also the movie Titanic II. And also the actual Titanic. The Buendías never leave Macondo by ship. They never leave Macondo at all. That's the whole point."
+                    },
+                    {
+                        text: "A pilot crashes in the desert and meets a small prince who has traveled from a tiny asteroid, leaving behind a rose he loves but cannot understand.",
+                        truth: false,
+                        sass: "You fool! This is The Little Prince. Antoine de Saint-Exupéry. Macondo has flowers falling FROM the sky, not people falling TO the desert. No asteroid princes. Just dead patriarchs and yellow petals."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A priest drinks a cup of hot chocolate and levitates twelve centimeters off the ground, which he presents as proof of God's existence to convince the townspeople to fund his church.",
+                        truth: true,
+                        sass: "Correct. Father Nicanor performs this miracle repeatedly. It works. They fund his church. The hot chocolate is essential — he can't do it without the hot chocolate. Nobody questions this."
+                    },
+                    {
+                        text: "Seven ronin are hired by a desperate village to defend against bandits, training the peasants to fight and sacrificing their lives in a final bloody battle.",
+                        truth: false,
+                        sass: "You fool! This is Seven Samurai by Akira Kurosawa. Or the remake by John Sturges, The Magnificent Seven. Or the 2016 remake by Antoine Fuqua, also called The Magnificent Seven. Or the sequel Return of the Seven. Or Guns of the Magnificent Seven. Or The Magnificent Seven Ride Again. Or the Pixar adaptation, A Bug's Life. Anyway, wrong story."
+                    },
+                    {
+                        text: "A nameless wanderer arrives in a town torn between two warring factions, manipulates both sides against each other, and walks away from the carnage with a fistful of gold.",
+                        truth: false,
+                        sass: "You fool! This is Yojimbo by Akira Kurosawa. Or A Fistful of Dollars by Sergio Leone. Colonel Aureliano Buendía DOES play both sides in civil wars, but he's named, he has morals (sometimes), and he ends up making gold fish, not taking gold."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A gypsy who has already died once returns to the living world because he 'couldn't stand the loneliness of death,' and continues visiting the family for generations.",
+                        truth: true,
+                        sass: "Correct. Melquíades dies, finds death too boring and lonely, and comes back. He hangs around for decades writing prophecies. Death is optional if you're interesting enough."
+                    },
+                    {
+                        text: "A murdered teenage girl watches from heaven as her family grieves and her killer evades justice, narrating events from The Lovely Bones by Alice Sebold.",
+                        truth: false,
+                        sass: "You fool! This is literally The Lovely Bones. We put the title in the question. Melquíades isn't murdered, he just dies. And he doesn't watch from heaven — he comes BACK. He thought heaven was boring. Different vibe."
+                    },
+                    {
+                        text: "A miser is visited by three spirits on Christmas Eve — the ghosts of Christmas Past, Present, and Yet to Come — who show him the error of his ways.",
+                        truth: false,
+                        sass: "You fool! This is A Christmas Carol. Dickens. Melquíades is one ghost who comes back because death was lonely, not three ghosts teaching fiscal responsibility. He just missed the living."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "An orphan girl arrives at the Buendía house carrying a canvas sack containing her parents' bones, which make a constant 'cloc-cloc-cloc' sound as she walks.",
+                        truth: true,
+                        sass: "Correct. Rebeca shows up with a bag of bones. Her parents' bones. They clack when she moves. The family just... takes her in. With the bones. The bones stay in the house. This is page one Rebeca behavior."
+                    },
+                    {
+                        text: "A rat with extraordinary culinary talent hides under a young chef's hat, controlling his movements by pulling his hair to help him cook in a Parisian restaurant.",
+                        truth: false,
+                        sass: "You fool! This is Ratatouille. Pixar. Rebeca doesn't have a rat making her a better cook. She has a bag of bones making her a worse houseguest. No one is pulling her hair to help her succeed."
+                    },
+                    {
+                        text: "In a dystopian future, the Buendía family discovers that the mysterious food product sustaining Macondo's population is made from human remains.",
+                        truth: false,
+                        sass: "You fool! This is Soylent Green. 'Soylent Green is people!' Rebeca's bones are already people — her parents, specifically. But no one is eating them. She's just... carrying them around. In a bag. Clacking."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "The orphan girl with the bag of bones develops a habit of eating dirt and whitewash scraped from the walls, and the habit spreads to other children in the house.",
+                        truth: true,
+                        sass: "Correct. Rebeca eats dirt. She eats the walls. It's contagious somehow. The other kids start doing it. Úrsula tries everything to stop it. This is casually presented as just another Rebeca thing."
+                    },
+                    {
+                        text: "A young man in Macondo discovers that he has unknowingly killed his father and married his mother, and upon learning the truth, blinds himself in anguish.",
+                        truth: false,
+                        sass: "You fool! This is Oedipus Rex. Sophocles. The Buendías DO have incest problems, but they're usually aware of the family relationships. They just do it anyway. Different energy. Also no one blinds themselves. They just have pig-tail babies."
+                    },
+                    {
+                        text: "The animals of Macondo's plantation overthrow their human masters and establish their own society, but the pigs gradually become indistinguishable from the men they replaced.",
+                        truth: false,
+                        sass: "You fool! This is Animal Farm. George Orwell. Macondo has plenty of political upheaval, but the animals don't organize. Petra Cotes's livestock just reproduce uncontrollably. No revolution. Just unprecedented fertility."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "After a century of the family fearing incest, a child is finally born with a pig's tail, fulfilling a prophecy made four generations earlier.",
+                        truth: true,
+                        sass: "Correct. Úrsula has been terrified of this since page one. It finally happens at the very end. The last Buendía has a corkscrew pig tail. Prophecy fulfilled. Bloodline consequences delivered."
+                    },
+                    {
+                        text: "A Buendía is exposed as a predator who has been 'certified' as such, hiding in plain sight in Macondo, his true nature revealed through community vigilance.",
+                        truth: false,
+                        sass: "You fool! This is from 'Not Like Us' by Kendrick Lamar. The Buendías have many sins — incest, murder, obsession — but this particular certified predator discourse is from the Drake beef, not Colombian magical realism."
+                    },
+                    {
+                        text: "The Buendía family learns that in Macondo, cash rules everything around them, and they must get the money, dollar dollar bill y'all.",
+                        truth: false,
+                        sass: "You fool! This is C.R.E.A.M. by Wu-Tang Clan. The Buendías do have money problems — Aureliano Segundo gets rich from horny livestock, then loses it all — but no one delivers this lesson in a Wu-Tang verse. Sadly."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "The baby born with a pig's tail is immediately carried away by an army of ants who devour it completely, leaving behind only a small piece of bone.",
+                        truth: true,
+                        sass: "Correct. The last Buendía is eaten by ants. Immediately. The mother is dead, the father is decoding prophecy, and the ants just... take the baby. It's a horrific ending. Nature reclaims everything."
+                    },
+                    {
+                        text: "A group of boys stranded on an island descend into savagery, mounting a pig's head on a stake as an offering to 'the Beast,' which one boy hallucinates speaking to him.",
+                        truth: false,
+                        sass: "You fool! This is Lord of the Flies. William Golding. In Macondo, the pig IS the baby. The ants are the savages. No island. No boys. Just insects and the end of a bloodline."
+                    },
+                    {
+                        text: "A boy shipwrecked on a lifeboat shares his space with a Bengal tiger for 227 days, surviving through faith, cunning, and an uneasy truce with the predator.",
+                        truth: false,
+                        sass: "You fool! This is Life of Pi. Yann Martel. In Macondo, there's no surviving with the predator. The ants don't negotiate. There's no lifeboat. There's just ants and finality."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A man's seventeen illegitimate sons, all named Aureliano, are each marked with an ash cross on their foreheads by priests, and then systematically hunted down and assassinated over the years.",
+                        truth: true,
+                        sass: "Correct. Colonel Aureliano Buendía has seventeen sons by seventeen women. Priests mark them with ash crosses for Ash Wednesday. This makes them easy to find. They all get murdered. Every single one."
+                    },
+                    {
+                        text: "Two hitmen in Macondo debate the spiritual significance of a Bible verse and a divine miracle that spared their lives, before accidentally shooting their informant in the face in the back of a car.",
+                        truth: false,
+                        sass: "You fool! This is Pulp Fiction. Quentin Tarantino. The sons of Aureliano are murdered systematically by assassins, but those assassins don't quote Ezekiel or debate Big Macs. Just efficient killing. No philosophy."
+                    },
+                    {
+                        text: "A crime lord arranges for all his enemies to be murdered simultaneously during his nephew's baptism, cutting between the sacred ceremony and the brutal assassinations.",
+                        truth: false,
+                        sass: "You fool! This is The Godfather. The baptism montage. In Macondo, the church isn't providing cover for murders — it's providing the ASH that marks the victims. Different religious involvement."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "The patriarch of the family goes mad, is tied to a chestnut tree in the backyard, and spends his remaining years speaking only in Latin, which no one understands.",
+                        truth: true,
+                        sass: "Correct. José Arcadio Buendía loses his mind trying to understand too much, gets tied to a tree, and switches to Latin. He dies there. Under the tree. Still tied. Speaking a dead language."
+                    },
+                    {
+                        text: "A man is chained to a rock as eternal punishment for stealing fire from the gods, and every day an eagle devours his liver, which regenerates overnight so the torture can continue.",
+                        truth: false,
+                        sass: "You fool! This is Prometheus. Greek mythology. José Arcadio Buendía isn't being punished by gods — he's being managed by his family. No eagle. No liver. Just Latin and rope. Much more domestic."
+                    },
+                    {
+                        text: "An aging lord, driven mad by his children's betrayal, wanders a stormy wilderness raging at the heavens, accompanied only by his fool and a loyal servant.",
+                        truth: false,
+                        sass: "You fool! This is King Lear by Shakespeare. Or alternatively Ran by Akira Kurosawa. José Arcadio Buendía doesn't wander — he's tied down. He's not raging at his kids. He's just speaking Latin at a tree. More contained madness."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "José Arcadio Buendía becomes convinced he can photograph God using daguerreotype technology, and spends months trying to capture proof of divine existence on film.",
+                        truth: true,
+                        sass: "Correct. He sets up a studio. He takes plate after plate. He's trying to catch God on camera. It doesn't work. But he's absolutely sincere about it. This is the man who also tried to weaponize magnets."
+                    },
+                    {
+                        text: "José Arcadio Buendía creates an artificial man from clay, binding it with three directives: it cannot harm humans, must obey orders, and must protect its own existence.",
+                        truth: false,
+                        sass: "You fool! This is I, Robot. Isaac Asimov. The Three Laws of Robotics. José Arcadio Buendía builds MACHINES, not golems. And his machines don't have ethical constraints. They just don't work."
+                    },
+                    {
+                        text: "José Arcadio Buendía attempts to communicate with a visiting dignitary using only metaphorical references to mythology, saying things like 'Darmok and Jalad at Tanagra' and 'Shaka, when the walls fell.'",
+                        truth: false,
+                        sass: "You fool! This is 'Darmok,' Star Trek: The Next Generation, Season 5, Episode 2. José Arcadio Buendía does eventually speak only in Latin, which no one understands, but that's madness, not Tamarian grammar."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "Twin brothers die on the same day, and during their joint funeral, their bodies are accidentally switched — each is buried in the other's grave, and no one ever corrects it.",
+                        truth: true,
+                        sass: "Correct. Aureliano Segundo and José Arcadio Segundo might have been switched at birth, and they're definitely switched at death. They may have been in the wrong coffins forever. The family doesn't fix it."
+                    },
+                    {
+                        text: "A Chicago baker and a Duchess of a small European country discover they are identical strangers and switch places before Christmas, each learning valuable lessons about love.",
+                        truth: false,
+                        sass: "You fool! This is The Princess Switch starring Vanessa Hudgens. Or The Princess Switch 2: Switched Again, also starring Vanessa Hudgens. Or The Princess Switch 3: Romancing the Star, where somehow they switch some more, ALSO starring Vanessa Hudgens. The Buendías switch at death, not for holiday romance."
+                    },
+                    {
+                        text: "Twin girls separated at birth scheme to reunite their divorced parents by switching places at summer camp, each pretending to be the other to infiltrate the opposite household.",
+                        truth: false,
+                        sass: "You fool! This is The Parent Trap. The Macondo twins don't scheme to fix anything. They just live parallel lives and die on the same day and get buried wrong. No happy ending. Just boxes."
+                    }
+                ]
+            },
+            {
+                instruction: "Which of these actually happens in the book?",
+                cards: [
+                    {
+                        text: "A woman is so impossibly beautiful that men literally die just from getting too close to her — falling off roofs, getting trampled by horses, fighting duels for her attention.",
+                        truth: true,
+                        sass: "Correct. Remedios the Beauty causes multiple deaths just by existing. Men see her and lose their minds. They fall off ladders. They start fights. She doesn't even notice. She's just doing her thing."
+                    },
+                    {
+                        text: "A woman known as the Prettiest Girl of All Time wears a veil at all times because her beauty is so devastating that it destroys anyone who sees her face unveiled.",
+                        truth: false,
+                        sass: "You fool! This is Joelle van Dyne from Infinite Jest by David Foster Wallace. The P.G.O.A.T. Remedios the Beauty doesn't wear a veil — she just exists openly, killing men left and right. No protection for anyone."
+                    },
+                    {
+                        text: "A woman's face launches a thousand ships and causes a ten-year war when a prince steals her away from her husband, drawing all of Greece into bloody conflict.",
+                        truth: false,
+                        sass: "You fool! This is Helen of Troy. The Iliad. Remedios the Beauty doesn't launch ships or wars. She just kills individual men, one at a time, by being too pretty to survive. Smaller scale. Same principle."
                     }
                 ]
             }
